@@ -4,36 +4,54 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Before You Share</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg:       #0D0F1A;
-    --surface:  #151826;
-    --card:     #1C1F30;
-    --card2:    #222538;
-    --purple:   #7B6EF6;
-    --purple2:  #9D94FF;
-    --teal:     #2DD4BF;
-    --teal2:    #14B8A6;
-    --white:    #FFFFFF;
-    --text:     #E2E8F0;
-    --muted:    #7A849A;
-    --border:   rgba(255,255,255,0.07);
-    --green:    #22C55E;
-    --amber:    #F59E0B;
-    --red:      #EF4444;
+    --candy:    #F7D3E2;
+    --green:    #DCE8B8;
+    --blush:    #D58A9F;
+    --blue:     #E3EDFD;
+    --denim:    #4A4F87;
+    --denim-d:  #3C406E;
+
+    /* Pastel green accent palette */
+    --mint:     #B8E8C8;
+    --mint-light: #E0F5E8;
+    --mint-dark: #3A7D52;
+    --mint-soft: #C8EDD5;
+    --mint-bg:  #F2FAF5;
+
+    --bg:       #FBFAF7;
+    --surface:  #FFFFFF;
+    --ink:      #1F2233;
+    --muted:    #71748A;
+    --line:     #ECEAE3;
+
+    --ok:       #5A9E6A;
+    --warn:     #C98B36;
+    --bad:      #C45A6C;
   }
 
   body {
-    font-family: 'DM Sans', system-ui, sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
     background: var(--bg);
-    color: var(--text);
+    color: var(--ink);
     min-height: 100vh;
-    max-width: 430px;
     margin: 0 auto;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: -0.1px;
+    max-width: 100%;
   }
+
+  #app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
 
   /* NAV */
   .nav {
@@ -43,249 +61,233 @@
     padding: 16px 20px;
     position: sticky;
     top: 0;
-    background: rgba(13,15,26,0.92);
-    backdrop-filter: blur(12px);
+    background: rgba(251,250,247,0.85);
+    backdrop-filter: blur(14px);
     z-index: 50;
-    border-bottom: 0.5px solid var(--border);
+    border-bottom: 1px solid var(--line);
   }
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
   .nav-icon {
-    width: 32px; height: 32px;
-    background: var(--purple);
-    border-radius: 8px;
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--denim), var(--mint-dark));
+    border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     font-size: 14px;
+    color: #fff;
   }
-  .nav-title { font-weight: 700; font-size: 16px; color: var(--white); }
-  .nav-sub { font-size: 10px; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; }
+  .nav-title { font-weight: 700; font-size: 15.5px; color: var(--ink); }
+  .nav-sub { font-size: 9.5px; color: var(--muted); letter-spacing: 1.2px; text-transform: uppercase; font-weight: 600; }
   .nav-btn {
     width: 36px; height: 36px;
-    background: var(--card);
-    border: 0.5px solid var(--border);
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
     cursor: pointer;
     color: var(--muted);
-    font-size: 18px;
-    transition: color 0.2s;
+    font-size: 16px;
+    transition: background 0.18s;
   }
-  .nav-btn:hover { color: var(--white); }
+  .nav-btn:active { background: var(--bg); }
 
   /* PAGE SWITCHER */
-  .pages { overflow: hidden; }
+  .pages { overflow: hidden; flex: 1; }
   .page { display: none; }
   .page.active { display: block; }
 
   /* HERO CARD */
   .hero-card {
     margin: 20px 16px 0;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 30%, #0891B2 70%, #0D9488 100%);
-    padding: 28px 24px 24px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, var(--mint-light) 0%, var(--mint-soft) 50%, var(--candy) 100%);
+    padding: 26px 22px 22px;
     position: relative;
     overflow: hidden;
   }
   .hero-card::before {
     content: '';
     position: absolute;
-    top: -40px; right: -40px;
-    width: 160px; height: 160px;
-    background: rgba(255,255,255,0.05);
-    border-radius: 50%;
-  }
-  .hero-card::after {
-    content: '';
-    position: absolute;
-    bottom: -20px; left: -20px;
-    width: 100px; height: 100px;
-    background: rgba(255,255,255,0.04);
+    top: -50px; right: -40px;
+    width: 150px; height: 150px;
+    background: rgba(255,255,255,0.4);
     border-radius: 50%;
   }
   .hero-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    color: rgba(255,255,255,0.7);
-    text-transform: uppercase;
-    margin-bottom: 10px;
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    color: var(--mint-dark);
+    background: rgba(255,255,255,0.75);
+    border-radius: 50px;
+    padding: 5px 12px;
+    margin-bottom: 14px;
+    position: relative;
   }
   .hero-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 30px;
-    color: #fff;
-    line-height: 1.15;
-    margin-bottom: 10px;
+    font-size: 27px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1.18;
+    margin-bottom: 9px;
+    position: relative;
+    letter-spacing: -0.5px;
   }
   .hero-desc {
     font-size: 13px;
-    color: rgba(255,255,255,0.75);
+    color: #3d5445;
     line-height: 1.6;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
+    position: relative;
   }
 
   /* INPUT AREA */
+  .input-wrap, .textarea-wrap {
+    background: var(--surface);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
   .input-wrap {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 4px 4px 4px 14px;
+    padding: 2px 4px 2px 14px;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
   }
   .input-wrap input {
     flex: 1;
-    background: none;
-    border: none;
-    outline: none;
-    font-size: 13.5px;
-    color: #fff;
+    background: none; border: none; outline: none;
+    font-size: 13.5px; color: var(--ink);
     font-family: inherit;
-    padding: 8px 0;
+    padding: 13px 0;
   }
-  .input-wrap input::placeholder { color: rgba(255,255,255,0.45); }
-  .input-toggle {
-    display: flex;
-    gap: 4px;
-    background: rgba(0,0,0,0.2);
-    border-radius: 8px;
-    padding: 3px;
-  }
-  .toggle-btn {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 6px;
-    font-size: 11px;
-    font-weight: 600;
-    cursor: pointer;
-    background: none;
-    color: rgba(255,255,255,0.5);
-    font-family: inherit;
-    transition: all 0.2s;
-  }
-  .toggle-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+  .input-wrap input::placeholder { color: #b3b4be; }
 
-  .textarea-wrap {
-    background: rgba(255,255,255,0.12);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 12px 14px;
-    margin-bottom: 12px;
-    display: none;
-  }
+  .textarea-wrap { padding: 13px 14px; display: none; }
   .textarea-wrap textarea {
     width: 100%;
-    background: none;
-    border: none;
-    outline: none;
-    font-size: 13.5px;
-    color: #fff;
+    background: none; border: none; outline: none;
+    font-size: 13.5px; color: var(--ink);
     font-family: inherit;
     resize: none;
-    height: 72px;
-    line-height: 1.5;
+    height: 70px;
+    line-height: 1.55;
   }
-  .textarea-wrap textarea::placeholder { color: rgba(255,255,255,0.4); }
+  .textarea-wrap textarea::placeholder { color: #b3b4be; }
+
+  .toggle-btn {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    background: rgba(255,255,255,0.55);
+    color: #8a7480;
+    font-family: inherit;
+    transition: background 0.18s, color 0.18s;
+  }
+  .toggle-btn.active { background: var(--surface); color: var(--denim); }
 
   .analyze-btn {
     width: 100%;
-    background: #fff;
-    color: #4C1D95;
+    background: var(--mint-dark);
+    color: #fff;
     font-weight: 700;
-    font-size: 15px;
+    font-size: 14.5px;
     border: none;
-    border-radius: 12px;
-    padding: 13px;
+    border-radius: 14px;
+    padding: 14px;
     cursor: pointer;
     font-family: inherit;
-    transition: opacity 0.2s, transform 0.1s;
+    transition: background 0.18s, transform 0.1s;
   }
-  .analyze-btn:hover { opacity: 0.92; }
-  .analyze-btn:active { transform: scale(0.98); }
+  .analyze-btn:active { transform: scale(0.985); background: #2e6943; }
 
   /* SECTION HEADER */
   .section-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 24px 20px 14px;
+    align-items: baseline;
+    padding: 28px 20px 14px;
   }
-  .section-title { font-size: 17px; font-weight: 700; color: var(--white); }
-  .section-sub { font-size: 12px; color: var(--muted); }
+  .section-title { font-size: 17px; font-weight: 800; color: var(--ink); letter-spacing: -0.3px; }
+  .section-sub { font-size: 11.5px; color: var(--muted); font-weight: 500; }
 
   /* TOOLS GRID */
   .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 24px; }
   .tool-card {
-    background: var(--card);
-    border: 0.5px solid var(--border);
-    border-radius: 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
     padding: 16px;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: transform 0.12s;
   }
-  .tool-card:hover { border-color: var(--purple); background: var(--card2); }
+  .tool-card:active { transform: scale(0.985); }
   .tool-icon {
     width: 40px; height: 40px;
-    border-radius: 10px;
+    border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
+    font-size: 17px;
     margin-bottom: 12px;
   }
-  .tool-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
-  .tool-tag { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
-  .tool-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .ic-candy { background: var(--candy); }
+  .ic-blue  { background: var(--blue); }
+  .ic-green { background: var(--mint); }
+  .ic-blush { background: #F3DEE3; }
+  .tool-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+  .tool-tag {
+    display: inline-block;
+    font-size: 10px; font-weight: 600;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .tool-desc { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
 
   /* RESULT CARD */
   .result-area { padding: 0 16px 24px; display: none; }
   .result-area.visible { display: block; }
 
   .result-card {
-    background: var(--card);
-    border: 0.5px solid var(--border);
-    border-radius: 20px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
     overflow: hidden;
     margin-bottom: 12px;
   }
-  .result-header {
-    padding: 18px 18px 14px;
-    border-bottom: 0.5px solid var(--border);
-  }
+  .result-header { padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
   .result-verdict {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    padding: 6px 14px;
+    gap: 6px;
+    padding: 5px 12px;
     border-radius: 50px;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     margin-bottom: 10px;
   }
-  .verdict-safe { background: rgba(34,197,94,0.15); color: #4ADE80; }
-  .verdict-check { background: rgba(245,158,11,0.15); color: #FCD34D; }
-  .verdict-danger { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+  .verdict-safe   { background: var(--mint); color: #2a5237; }
+  .verdict-check  { background: #FBEBC8; color: #8a6320; }
+  .verdict-danger { background: #F3DEE3; color: #9c4456; }
 
-  .result-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
-  .result-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .result-title { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 6px; letter-spacing: -0.3px; }
+  .result-desc { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
 
   /* RISK METER */
   .meter-wrap { padding: 16px 18px; }
-  .meter-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .meter-label { display: flex; justify-content: space-between; margin-bottom: 9px; }
   .meter-label span { font-size: 12px; font-weight: 600; }
-  .meter-track { background: rgba(255,255,255,0.1); border-radius: 50px; height: 6px; }
-  .meter-fill { height: 6px; border-radius: 50px; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+  .meter-track { background: var(--line); border-radius: 50px; height: 8px; overflow: hidden; }
+  .meter-fill { height: 100%; border-radius: 50px; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
 
   /* DETAIL ROWS */
   .detail-row {
-    padding: 12px 18px;
-    border-top: 0.5px solid var(--border);
+    padding: 13px 18px;
+    border-top: 1px solid var(--line);
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 11px;
   }
   .detail-dot {
     width: 8px; height: 8px;
@@ -293,111 +295,145 @@
     margin-top: 5px;
     flex-shrink: 0;
   }
-  .detail-key { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
-  .detail-val { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .detail-key { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+  .detail-val { font-size: 11.5px; color: var(--muted); line-height: 1.5; }
 
   /* SUGGESTION */
   .suggestion-card {
-    background: rgba(123,110,246,0.1);
-    border: 0.5px solid rgba(123,110,246,0.3);
-    border-radius: 14px;
-    padding: 14px 16px;
+    background: var(--mint-light);
+    border-radius: 16px;
+    padding: 15px 16px;
     margin-bottom: 12px;
   }
-  .suggestion-label { font-size: 11px; font-weight: 700; color: var(--purple2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
-  .suggestion-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .suggestion-label {
+    font-size: 10px; font-weight: 700;
+    color: var(--mint-dark);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .suggestion-text { font-size: 12.5px; color: #2a4a34; line-height: 1.6; }
 
   .reset-btn {
     width: 100%;
-    background: var(--card);
-    border: 0.5px solid var(--border);
+    background: var(--surface);
+    border: 1px solid var(--line);
     color: var(--muted);
     padding: 12px;
-    border-radius: 12px;
-    font-size: 14px;
+    border-radius: 14px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
-    transition: color 0.2s, border-color 0.2s;
+    transition: background 0.18s;
   }
-  .reset-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+  .reset-btn:active { background: var(--bg); }
 
-  /* QUICK CHECK PAGE */
+  /* GENERIC INNER PAGE */
   .qc-page { padding: 20px 16px; }
   .qc-back {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 13px; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12.5px; font-weight: 600; color: var(--muted);
     cursor: pointer; margin-bottom: 20px;
-    background: none; border: none; font-family: inherit;
-    transition: color 0.2s;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 50px; padding: 8px 14px;
+    font-family: inherit;
+    transition: background 0.18s;
   }
-  .qc-back:hover { color: var(--white); }
-  .qc-progress-track { background: rgba(255,255,255,0.1); border-radius: 50px; height: 4px; margin-bottom: 24px; }
-  .qc-progress-fill { height: 4px; border-radius: 50px; background: var(--purple); transition: width 0.4s; }
-  .qc-step-info { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
-  .qc-question { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); line-height: 1.3; margin-bottom: 24px; }
-  .qc-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .qc-back:active { background: var(--bg); }
+
+  .qc-progress-track {
+    background: var(--line);
+    border-radius: 50px;
+    height: 6px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .qc-progress-fill { height: 100%; background: var(--mint-dark); transition: width 0.4s; }
+
+  .qc-step-info {
+    font-size: 10.5px; color: var(--muted);
+    margin-bottom: 12px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+  }
+  .qc-question {
+    font-size: 21px; font-weight: 800;
+    color: var(--ink); line-height: 1.3; margin-bottom: 24px;
+    letter-spacing: -0.4px;
+  }
+  .qc-options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; }
   .qc-opt {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 16px;
-    background: var(--card);
-    border: 1px solid var(--border);
+    display: flex; align-items: center; gap: 11px;
+    padding: 14px 15px;
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: 14px;
     cursor: pointer;
-    font-size: 14px;
-    color: var(--text);
+    font-size: 13px;
+    color: var(--ink);
     font-family: inherit;
     text-align: left;
-    transition: all 0.2s;
+    transition: border-color 0.18s, background 0.18s;
     line-height: 1.4;
   }
-  .qc-opt:hover { border-color: var(--purple); background: var(--card2); }
-  .qc-opt.selected { border-color: var(--purple); background: rgba(123,110,246,0.12); color: var(--white); }
+  .qc-opt:active { background: var(--bg); }
+  .qc-opt.selected { border-color: var(--denim); background: #F2F2F8; }
   .qc-opt-dot {
     width: 20px; height: 20px; border-radius: 50%;
-    border: 2px solid var(--border);
+    border: 2px solid var(--line);
+    background: var(--surface);
     flex-shrink: 0;
-    transition: all 0.2s;
+    transition: all 0.18s;
+    position: relative;
   }
-  .qc-opt.selected .qc-opt-dot { background: var(--purple); border-color: var(--purple); }
+  .qc-opt.selected .qc-opt-dot { border-color: var(--denim); }
+  .qc-opt.selected .qc-opt-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--denim);
+    border-radius: 50%;
+  }
   .qc-next {
     width: 100%;
-    background: var(--purple);
+    background: var(--denim);
     color: #fff;
     border: none;
     padding: 14px;
     border-radius: 14px;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
-    transition: opacity 0.2s;
+    transition: background 0.18s, transform 0.1s;
   }
-  .qc-next:disabled { opacity: 0.3; cursor: not-allowed; }
+  .qc-next:active { transform: scale(0.985); background: var(--denim-d); }
+  .qc-next:disabled { opacity: 0.35; cursor: not-allowed; }
+  .qc-next:disabled:active { transform: none; background: var(--denim); }
 
-  /* QUIZ PAGE */
+  /* QUIZ */
   .quiz-opt-letter {
     width: 28px; height: 28px;
-    border-radius: 8px;
-    background: rgba(255,255,255,0.08);
+    border-radius: 9px;
+    background: var(--bg);
+    border: 1px solid var(--line);
     display: flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 700; color: var(--muted);
     flex-shrink: 0;
-    transition: all 0.2s;
+    transition: all 0.18s;
   }
-  .qc-opt.selected .quiz-opt-letter { background: var(--purple); color: #fff; }
-  .qc-opt.correct { border-color: var(--green); background: rgba(34,197,94,0.1); }
-  .qc-opt.correct .quiz-opt-letter { background: var(--green); color: #fff; }
-  .qc-opt.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); }
-  .qc-opt.wrong .quiz-opt-letter { background: var(--red); color: #fff; }
+  .qc-opt.selected .quiz-opt-letter { background: var(--denim); border-color: var(--denim); color: #fff; }
+  .qc-opt.correct { border-color: var(--ok); background: var(--mint-light); }
+  .qc-opt.correct .quiz-opt-letter { background: var(--ok); border-color: var(--ok); color: #fff; }
+  .qc-opt.wrong { border-color: var(--bad); background: #FBEEF0; }
+  .qc-opt.wrong .quiz-opt-letter { background: var(--bad); border-color: var(--bad); color: #fff; }
 
   .feedback-card {
-    background: rgba(123,110,246,0.1);
-    border: 0.5px solid rgba(123,110,246,0.3);
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 13px;
-    color: var(--text);
+    background: var(--mint-light);
+    border-radius: 14px;
+    padding: 13px 15px;
+    font-size: 12.5px;
+    color: #2a5237;
     line-height: 1.6;
     margin-bottom: 16px;
     display: none;
@@ -405,85 +441,101 @@
   .feedback-card.visible { display: block; }
 
   /* SCORE */
-  .score-wrap { text-align: center; padding: 20px 0; }
+  .score-wrap { text-align: center; padding: 16px 0; }
   .score-ring {
-    width: 90px; height: 90px;
+    width: 92px; height: 92px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--purple), var(--teal));
+    background: var(--mint-light);
     display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-    font-family: 'DM Serif Display', serif;
-    font-size: 28px; color: #fff;
+    margin: 0 auto 18px;
+    font-size: 28px; font-weight: 800; color: var(--mint-dark);
   }
   .score-badge {
     display: inline-block;
-    padding: 5px 16px;
-    background: rgba(123,110,246,0.15);
-    color: var(--purple2);
+    padding: 6px 16px;
+    background: var(--mint);
+    color: #2a5237;
     border-radius: 50px;
     font-size: 12px; font-weight: 700;
     margin-bottom: 12px;
   }
 
-  /* REWORD PAGE */
+  /* REWORD / METER BOXES */
   .rw-before-box {
-    background: var(--card);
-    border: 0.5px solid var(--border);
+    background: var(--surface);
+    border: 1px solid var(--line);
     border-radius: 16px;
     overflow: hidden;
     margin-bottom: 12px;
   }
   .rw-box-label {
     padding: 10px 14px;
-    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.6px;
     text-transform: uppercase;
-    border-bottom: 0.5px solid var(--border);
+    border-bottom: 1px solid var(--line);
   }
-  .label-before { color: var(--red); background: rgba(239,68,68,0.08); }
-  .label-after { color: var(--green); background: rgba(34,197,94,0.08); }
+  .label-before { color: #9c4456; background: #F8EEF0; }
+  .label-after  { color: #2a5237; background: var(--mint-light); }
   .rw-textarea {
     width: 100%;
-    background: none;
-    border: none;
-    outline: none;
+    background: none; border: none; outline: none;
     padding: 14px;
-    font-size: 14px;
-    color: var(--text);
+    font-size: 13.5px; color: var(--ink);
     font-family: inherit;
     resize: none;
-    height: 80px;
+    height: 78px;
     line-height: 1.6;
   }
+  .rw-textarea::placeholder { color: #b3b4be; }
   .rw-output-text {
     padding: 14px;
-    font-size: 14px;
-    color: #4ADE80;
-    line-height: 1.6;
-    min-height: 60px;
+    font-size: 13.5px;
+    color: #2a5237;
+    line-height: 1.65;
+    min-height: 58px;
+    font-weight: 500;
   }
   .rw-convert-btn {
     width: 100%;
-    background: linear-gradient(135deg, var(--purple), var(--teal2));
+    background: var(--denim);
     color: #fff;
     border: none;
     padding: 14px;
     border-radius: 14px;
-    font-size: 15px;
+    font-size: 14.5px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
     margin-bottom: 16px;
+    transition: background 0.18s, transform 0.1s;
   }
+  .rw-convert-btn:active { transform: scale(0.985); background: var(--denim-d); }
+
+  .sample-btn {
+    text-align: left;
+    padding: 11px 14px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: background 0.18s;
+  }
+  .sample-btn:active { background: var(--bg); }
 
   /* BOTTOM NAV */
   .bottom-nav {
     position: sticky;
     bottom: 0;
-    background: rgba(13,15,26,0.95);
-    backdrop-filter: blur(12px);
-    border-top: 0.5px solid var(--border);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--line);
     display: flex;
-    padding: 10px 0 16px;
+    padding: 8px 0 14px;
+    margin-top: auto;
   }
   .bnav-item {
     flex: 1;
@@ -495,23 +547,148 @@
     padding: 6px 0;
     border: none;
     background: none;
-    color: var(--muted);
+    color: #a9aab6;
     font-family: inherit;
-    transition: color 0.2s;
+    transition: color 0.18s;
   }
-  .bnav-item.active { color: var(--purple2); }
-  .bnav-icon { font-size: 22px; }
-  .bnav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+  .bnav-item.active { color: var(--denim); }
+  .bnav-icon { font-size: 19px; }
+  .bnav-label { font-size: 10px; font-weight: 600; }
 
   /* Animations */
-  @keyframes slideUp {
-    from { opacity: 0; transform: translateY(16px); }
+  @keyframes fade {
+    from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .anim { animation: slideUp 0.3s ease both; }
-  .anim-d1 { animation-delay: 0.05s; }
-  .anim-d2 { animation-delay: 0.1s; }
-  .anim-d3 { animation-delay: 0.15s; }
+  .anim { animation: fade 0.4s ease both; }
+  .anim-d1 { animation-delay: 0.07s; }
+  .anim-d2 { animation-delay: 0.14s; }
+
+  /* ============ RESPONSIVE DESKTOP ============ */
+  @media (min-width: 768px) {
+    body {
+      background: var(--mint-bg);
+    }
+    #app {
+      max-width: 100%;
+      margin: 0 auto;
+      background: var(--bg);
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .nav {
+      padding: 18px 48px;
+      background: rgba(251,250,247,0.92);
+    }
+    .nav-title { font-size: 17px; }
+    .hero-card {
+      margin: 28px 48px 0;
+      padding: 38px 40px 34px;
+      border-radius: 26px;
+    }
+    .hero-card::before {
+      width: 220px; height: 220px;
+      top: -80px; right: -60px;
+    }
+    .hero-title { font-size: 34px; }
+    .hero-desc { font-size: 15px; }
+    .hero-label { font-size: 11.5px; padding: 6px 14px; }
+
+    .textarea-wrap textarea { height: 90px; font-size: 14.5px; }
+    .input-wrap input { font-size: 14.5px; }
+    .analyze-btn { font-size: 15.5px; padding: 16px; }
+
+    .section-header { padding: 36px 48px 16px; }
+    .section-title { font-size: 20px; }
+
+    .tools-grid {
+      padding: 0 48px 36px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    .tool-card {
+      padding: 22px;
+      border-radius: 20px;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .tool-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .tool-icon { width: 48px; height: 48px; font-size: 20px; }
+    .tool-name { font-size: 15.5px; }
+    .tool-desc { font-size: 12.5px; }
+
+    .result-area { padding: 0 48px 36px; }
+    .result-card { border-radius: 20px; }
+    .result-header { padding: 24px 28px 18px; }
+    .meter-wrap { padding: 22px 28px; }
+    .detail-row { padding: 16px 28px; }
+
+    .suggestion-card { padding: 20px 22px; border-radius: 18px; }
+    .suggestion-text { font-size: 14px; }
+
+    .qc-page {
+      padding: 32px 48px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .qc-question { font-size: 26px; }
+    .qc-opt { padding: 18px 20px; font-size: 14.5px; }
+    .qc-next { font-size: 15.5px; padding: 16px; }
+
+    .rw-textarea { height: 110px; font-size: 14.5px; }
+    .rw-convert-btn { font-size: 15.5px; padding: 16px; }
+    .sample-btn { font-size: 13.5px; padding: 13px 16px; }
+
+    .bottom-nav {
+      padding: 14px 48px 18px;
+      position: relative;
+    }
+    .bnav-item { flex-direction: row; gap: 6px; }
+    .bnav-icon { font-size: 20px; }
+    .bnav-label { font-size: 12px; }
+  }
+
+  /* Extra wide desktop */
+  @media (min-width: 1200px) {
+    .nav { padding: 20px 64px; }
+    .hero-card {
+      margin: 32px 64px 0;
+      padding: 44px 48px 38px;
+    }
+    .hero-title { font-size: 38px; }
+    .hero-desc { font-size: 15.5px; }
+
+    .tools-grid {
+      padding: 0 64px 40px;
+      gap: 20px;
+    }
+    .section-header { padding: 40px 64px 18px; }
+    .section-title { font-size: 22px; }
+
+    .result-area { padding: 0 64px 40px; }
+
+    .qc-page { max-width: 760px; padding: 36px 64px; }
+
+    .bottom-nav { padding: 16px 64px 20px; }
+  }
+
+  /* Mobile (up to 767px) */
+  @media (max-width: 767px) {
+    #app { max-width: 430px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+  }
+
+  /* Small mobile */
+  @media (max-width: 374px) {
+    .hero-title { font-size: 23px; }
+    .hero-desc { font-size: 12px; }
+    .tools-grid { grid-template-columns: 1fr; gap: 10px; }
+    .qc-question { font-size: 18px; }
+    .nav-title { font-size: 14px; }
+  }
 </style>
 
 <h2 class="sr-only">Before You Share — Website interaktif pencegah polarisasi politik berbasis nilai Pancasila</h2>
@@ -530,28 +707,28 @@
 
   <div class="pages">
 
-    <!-- ═══ HOME ═══ -->
+    <!-- HOME -->
     <div class="page active" id="page-home">
       <div class="hero-card anim">
-        <div class="hero-label">AI-Powered Analysis</div>
-        <h1 class="hero-title">Is this safe to share?</h1>
-        <p class="hero-desc">Paste a link or text to analyze the vibe before you post. Our system detects polarization, tone, and potential friction.</p>
+        <span class="hero-label">Cek dulu, baru share</span>
+        <h1 class="hero-title">Aman nggak buat di-share?</h1>
+        <p class="hero-desc">Tempel link atau teks, lalu kami bantu cek nadanya sebelum kamu posting — mendeteksi potensi polarisasi dan provokasi.</p>
 
-        <div id="input-type-toggle" style="display:flex;gap:6px;margin-bottom:12px;">
-          <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">Text</button>
+        <div id="input-type-toggle" style="display:flex;gap:6px;margin-bottom:10px;">
+          <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">Teks</button>
           <button class="toggle-btn" id="btn-link" onclick="switchInput('link')">Link / URL</button>
         </div>
 
         <div id="text-input-wrap" class="textarea-wrap" style="display:block;">
-          <textarea id="text-input" placeholder="Paste your draft, caption, or komentar di sini..."></textarea>
+          <textarea id="text-input" placeholder="Tempel draft, caption, atau komentar di sini..."></textarea>
         </div>
 
         <div id="link-input-wrap" class="input-wrap" style="display:none;">
-          <span style="color:rgba(255,255,255,0.5);font-size:14px;">🔗</span>
-          <input type="url" id="link-input" placeholder="Paste link artikel, postingan, atau URL...">
+          <span style="font-size:14px;opacity:0.6;">🔗</span>
+          <input type="url" id="link-input" placeholder="Tempel link artikel, postingan, atau URL...">
         </div>
 
-        <button class="analyze-btn" onclick="runAnalysis()">Analyze</button>
+        <button class="analyze-btn" onclick="runAnalysis()">Cek Sekarang</button>
       </div>
 
       <div class="result-area" id="result-area">
@@ -563,10 +740,10 @@
           </div>
           <div class="meter-wrap">
             <div class="meter-label">
-              <span id="meter-label-txt" style="color:#fff">Polarization Risk</span>
+              <span id="meter-label-txt">Risiko Polarisasi</span>
               <span id="meter-pct" style="color:var(--muted)">0%</span>
             </div>
-            <div class="meter-track"><div class="meter-fill" id="meter-fill" style="width:0%;background:var(--red)"></div></div>
+            <div class="meter-track"><div class="meter-fill" id="meter-fill" style="width:0%;background:var(--bad)"></div></div>
           </div>
           <div id="detail-rows"></div>
         </div>
@@ -579,39 +756,39 @@
 
       <div id="home-tools">
         <div class="section-header anim anim-d1">
-          <span class="section-title">Core Tools</span>
-          <span class="section-sub">Swipe to explore</span>
+          <span class="section-title">Tools</span>
+          <span class="section-sub">Pilih satu</span>
         </div>
         <div class="tools-grid anim anim-d2">
           <div class="tool-card" onclick="gotoPage('qc')">
-            <div class="tool-icon" style="background:rgba(123,110,246,0.15)">📋</div>
+            <div class="tool-icon ic-candy">📋</div>
             <div class="tool-name">Quick Check</div>
-            <div class="tool-tag">Instant Analysis</div>
-            <div class="tool-desc">A rapid scan for inflammatory language and misinformation patterns.</div>
+            <div class="tool-tag">Instant Scan</div>
+            <div class="tool-desc">Scan kilat untuk bahasa provokatif dan pola misinformasi.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('meter')">
-            <div class="tool-icon" style="background:rgba(245,158,11,0.15)">📊</div>
-            <div class="tool-name">Pola­rization Meter</div>
-            <div class="tool-tag">View Echo Bubble</div>
-            <div class="tool-desc">Visualize how polarizing your content is on the echo chamber scale.</div>
+            <div class="tool-icon ic-blue">📊</div>
+            <div class="tool-name">Polarization Meter</div>
+            <div class="tool-tag">Echo Bubble</div>
+            <div class="tool-desc">Lihat seberapa memecah konten kamu di skala echo chamber.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('reword')">
-            <div class="tool-icon" style="background:rgba(45,212,191,0.15)">✏️</div>
+            <div class="tool-icon ic-green">✏️</div>
             <div class="tool-name">Reword It</div>
             <div class="tool-tag">Bahasa Beradab</div>
-            <div class="tool-desc">Transform emotional comments into constructive, civil language.</div>
+            <div class="tool-desc">Ubah komentar emosional jadi bahasa yang lebih sopan.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('quiz')">
-            <div class="tool-icon" style="background:rgba(239,68,68,0.12)">🎯</div>
+            <div class="tool-icon ic-blush">🎯</div>
             <div class="tool-name">Mini Quiz</div>
             <div class="tool-tag">Literacy Score</div>
-            <div class="tool-desc">Test your digital wisdom in navigating political content.</div>
+            <div class="tool-desc">Tes kebijakanmu menghadapi konten politik di medsos.</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ═══ QUICK CHECK ═══ -->
+    <!-- QUICK CHECK -->
     <div class="page" id="page-qc">
       <div class="qc-page">
         <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
@@ -620,7 +797,7 @@
       </div>
     </div>
 
-    <!-- ═══ POLARIZATION METER ═══ -->
+    <!-- POLARIZATION METER -->
     <div class="page" id="page-meter">
       <div class="qc-page">
         <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
@@ -628,12 +805,12 @@
         <h2 class="qc-question">Seberapa provokatif kalimat ini?</h2>
         <div class="rw-before-box" style="margin-bottom:12px;">
           <div class="rw-box-label label-before">Masukkan teks</div>
-          <textarea class="rw-textarea" id="meter-text" placeholder="Tulis atau paste kalimat / caption politik..."></textarea>
+          <textarea class="rw-textarea" id="meter-text" placeholder="Tulis atau tempel kalimat / caption politik..."></textarea>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-          <button onclick="setMeter('Saya kurang setuju dengan kebijakan tersebut karena dampaknya belum terukur.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">💬 Kalimat netral — coba ini</button>
-          <button onclick="setMeter('Kebijakan ini memang buruk, banyak yang terdampak tapi sepertinya tidak ada yang peduli.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">⚠️ Kalimat emosional — coba ini</button>
-          <button onclick="setMeter('Pendukung calon itu bodoh semua, tidak punya akal sehat!')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">🚨 Kalimat provokatif — coba ini</button>
+          <button class="sample-btn" onclick="setMeter('Saya kurang setuju dengan kebijakan tersebut karena dampaknya belum terukur.')">💬 Kalimat netral — coba ini</button>
+          <button class="sample-btn" onclick="setMeter('Kebijakan ini memang buruk, banyak yang terdampak tapi sepertinya tidak ada yang peduli.')">⚠️ Kalimat emosional — coba ini</button>
+          <button class="sample-btn" onclick="setMeter('Pendukung calon itu bodoh semua, tidak punya akal sehat!')">🚨 Kalimat provokatif — coba ini</button>
         </div>
         <button class="rw-convert-btn" onclick="runMeter()">Analisis Sekarang</button>
         <div id="meter-result" style="display:none;">
@@ -644,7 +821,7 @@
             </div>
             <div class="meter-wrap">
               <div class="meter-label">
-                <span id="meter2-lbl" style="color:#fff;font-weight:600;">Risk Score</span>
+                <span id="meter2-lbl">Risk Score</span>
                 <span id="meter2-pct" style="color:var(--muted)"></span>
               </div>
               <div class="meter-track"><div class="meter-fill" id="meter2-fill" style="width:0%"></div></div>
@@ -658,7 +835,7 @@
       </div>
     </div>
 
-    <!-- ═══ REWORD IT ═══ -->
+    <!-- REWORD IT -->
     <div class="page" id="page-reword">
       <div class="qc-page">
         <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
@@ -669,8 +846,8 @@
           <textarea class="rw-textarea" id="rw-in" placeholder="Tulis komentar emosional yang ingin diubah..."></textarea>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-          <button onclick="setRW('Orang yang dukung itu pasti nggak mikir sama sekali!')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">Orang yang dukung itu pasti nggak mikir!</button>
-          <button onclick="setRW('Pemimpin kita memang tidak becus, bikin malu saja.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">Pemimpin kita memang tidak becus!</button>
+          <button class="sample-btn" onclick="setRW('Orang yang dukung itu pasti nggak mikir sama sekali!')">Orang yang dukung itu pasti nggak mikir!</button>
+          <button class="sample-btn" onclick="setRW('Pemimpin kita memang tidak becus, bikin malu saja.')">Pemimpin kita memang tidak becus!</button>
         </div>
         <button class="rw-convert-btn" onclick="doReword()">Ubah Sekarang</button>
         <div id="rw-result-box" style="display:none;">
@@ -683,7 +860,7 @@
       </div>
     </div>
 
-    <!-- ═══ QUIZ ═══ -->
+    <!-- QUIZ -->
     <div class="page" id="page-quiz">
       <div class="qc-page">
         <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
@@ -733,6 +910,7 @@ function gotoPage(id) {
   document.getElementById(pageMap[id]).className='page active';
   Object.values(bnavMap).forEach(function(b){ if(b) document.getElementById(b).className='bnav-item'; });
   if(bnavMap[id]) document.getElementById(bnavMap[id]).className='bnav-item active';
+  window.scrollTo(0,0);
   if(id==='qc'){ qcStep=0; qcAns=new Array(5).fill(-1); renderQC(); }
   if(id==='quiz'){ qzStep=0; qzAns=new Array(4).fill(-1); renderQuiz(); }
 }
@@ -779,26 +957,26 @@ function runAnalysis() {
     badge.className='result-verdict verdict-safe'; badge.textContent='✓ Safe to Share';
     title.textContent=isLink?'Link ini terlihat aman':'Konten ini terlihat aman';
     desc.textContent='Tidak terdeteksi pola provokatif atau narasi yang memecah belah. Kamu bisa membagikannya dengan percaya diri.';
-    fill.style.background='#22C55E';
+    fill.style.background='var(--ok)';
     sugg.textContent='Konten ini sudah mencerminkan Sila III — menjaga persatuan. Tetap pertahankan kebiasaan berpikir sebelum berbagi.';
   } else if(score<65){
     badge.className='result-verdict verdict-check'; badge.textContent='⚠ Check Again';
     title.textContent='Perlu dicek ulang';
     desc.textContent='Ada beberapa elemen yang bisa memancing respons emosional. Pastikan sumber dan konteksnya valid sebelum disebarkan.';
-    fill.style.background='#F59E0B';
+    fill.style.background='var(--warn)';
     sugg.textContent='Sesuai Sila IV — pertimbangkan apakah konten ini mendorong musyawarah yang hikmat atau sebaliknya memperkeruh diskusi.';
   } else {
     badge.className='result-verdict verdict-danger'; badge.textContent='✗ Don\'t Share Yet';
     title.textContent='Jangan disebarkan dulu';
     desc.textContent='Konten ini berindikasi tinggi polarisasi — ada narasi provokatif, menyerang kelompok, atau berpotensi menjadi hoaks.';
-    fill.style.background='#EF4444';
+    fill.style.background='var(--bad)';
     sugg.textContent='Melanggar semangat Sila II & III. Alih-alih menyebarkan, coba gunakan fitur Reword It untuk mengubah pesannya menjadi lebih beradab.';
   }
 
   var checks = [
-    {k:'Provokasi', v: score>60?'Ditemukan pola kalimat menyerang atau memancing emosi.':'Tidak ditemukan indikasi provokatif yang signifikan.', c: score>60?'#EF4444':'#22C55E'},
-    {k:'Echo Chamber', v: score>40?'Narasi cenderung memperkuat satu sudut pandang.':'Narasi relatif berimbang.', c: score>40?'#F59E0B':'#22C55E'},
-    {k:'Verifikasi', v: isLink?'Cek sumber dan tanggal penerbitan sebelum membagi.':'Pastikan klaim di dalam teks didukung data yang valid.', c:'#7B6EF6'},
+    {k:'Provokasi', v: score>60?'Ditemukan pola kalimat menyerang atau memancing emosi.':'Tidak ditemukan indikasi provokatif yang signifikan.', c: score>60?'var(--bad)':'var(--ok)'},
+    {k:'Echo Chamber', v: score>40?'Narasi cenderung memperkuat satu sudut pandang.':'Narasi relatif berimbang.', c: score>40?'var(--warn)':'var(--ok)'},
+    {k:'Verifikasi', v: isLink?'Cek sumber dan tanggal penerbitan sebelum membagi.':'Pastikan klaim di dalam teks didukung data yang valid.', c:'var(--denim)'},
   ];
   rows.innerHTML = checks.map(function(c){
     return '<div class="detail-row"><div class="detail-dot" style="background:'+c.c+'"></div><div><div class="detail-key">'+c.k+'</div><div class="detail-val">'+c.v+'</div></div></div>';
@@ -828,17 +1006,17 @@ function runMeter(){
   ppct.textContent=score+'%';
   if(score<35){
     badge.className='result-verdict verdict-safe'; badge.textContent='Low Risk';
-    fill.style.background='#22C55E';
+    fill.style.background='var(--ok)';
     vtxt.textContent='Kalimat ini relatif netral dan tidak berpotensi memperkeruh polarisasi.';
     sugg.textContent='Kalimat ini sudah baik. Tetap perhatikan konteks saat membagikannya di ruang publik.';
   } else if(score<65){
     badge.className='result-verdict verdict-check'; badge.textContent='Medium Risk';
-    fill.style.background='#F59E0B';
+    fill.style.background='var(--warn)';
     vtxt.textContent='Ada beberapa kata emosional yang bisa memancing respons negatif dari kubu lain.';
     sugg.textContent='Coba kurangi kata yang terlalu emosional. Fokus pada fakta dan argumen konkret, bukan pada penyerangan identitas.';
   } else {
     badge.className='result-verdict verdict-danger'; badge.textContent='High Risk';
-    fill.style.background='#EF4444';
+    fill.style.background='var(--bad)';
     vtxt.textContent='Kalimat ini berisiko tinggi memperparah polarisasi dan menyerang kelompok tertentu.';
     sugg.textContent='Ubah fokus: kritik kebijakan, bukan orangnya. Gunakan Reword It untuk bantuan mengubah kalimat ini menjadi lebih beradab.';
   }
@@ -885,8 +1063,7 @@ function showQCResult(){
   if(score<=3){type='safe';label='Safe to Share';msg='Konten ini terlihat cukup aman. Sumber jelas, konteks relevan, dan tidak bersifat provokatif. Kamu bisa membagikannya.';}
   else if(score<=6){type='check';label='Check Again';msg='Ada beberapa hal yang perlu dicek ulang sebelum membagikan konten ini. Pastikan sumbernya kredibel dan konteksnya benar.';}
   else{type='danger';label="Don't Share Yet";msg='Konten ini berisiko tinggi mengandung hoaks, narasi provokatif, atau serangan terhadap kelompok tertentu. Lebih baik tidak disebarkan.';}
-  var colors={safe:'#22C55E',check:'#F59E0B',danger:'#EF4444'};
-  document.getElementById('qc-body').innerHTML='<div style="text-align:center;padding:20px 0;"><div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6B21A8,#0891B2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:#fff;font-family:\'DM Serif Display\',serif;">'+(score<=3?'✓':score<=6?'~':'✗')+'</div><div class="result-verdict '+('verdict-'+type)+'" style="margin:0 auto 12px;">'+label+'</div><p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qcStep=0;qcAns=new Array(5).fill(-1);renderQC();">Cek Konten Lain</button></div>';
+  document.getElementById('qc-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+(score<=3?'✓':score<=6?'~':'✗')+'</div><div class="result-verdict verdict-'+type+'" style="margin:0 auto 14px;">'+label+'</div><p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qcStep=0;qcAns=new Array(5).fill(-1);renderQC();">Cek Konten Lain</button></div>';
 }
 
 var qzQs=[
@@ -922,9 +1099,11 @@ function showQuizScore(){
   var pct=Math.round(score/qzQs.length*100);
   var badge=pct>=75?'Digital Peace Maker':pct>=50?'On the Right Track':'Need More Pause';
   var msg=pct>=75?'Kamu sudah cukup bijak dalam menyikapi konten politik. Terus praktikkan dan bagikan kebiasaan baik ini!':pct>=50?'Kamu di jalur yang tepat! Masih ada ruang untuk berkembang. Gunakan Quick Check setiap kali ingin berbagi.':'Perlu lebih sering berhenti sejenak sebelum share. Jadikan Before You Share sebagai panduan harianmu.';
-  document.getElementById('quiz-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+score+'/'+qzQs.length+'</div><div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;">Skor kamu: '+pct+'%</div><div class="score-badge">'+badge+'</div><p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qzStep=0;qzAns=new Array(4).fill(-1);renderQuiz();">Ulangi Quiz</button></div>';
+  document.getElementById('quiz-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+score+'/'+qzQs.length+'</div><div style="font-size:19px;font-weight:800;color:var(--ink);margin-bottom:10px;">Skor kamu: '+pct+'%</div><div class="score-badge">'+badge+'</div><p style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qzStep=0;qzAns=new Array(4).fill(-1);renderQuiz();">Ulangi Quiz</button></div>';
 }
 
 renderQC();
 renderQuiz();
 </script>
+</body>
+</html>
