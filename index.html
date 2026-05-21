@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,7 +83,7 @@
     border: 1px solid var(--line);
     border-radius: 10px;
     display: flex; align-items: center; justify-content: center;
-    cursor: pointer;
+    cursor: pointer;  
     color: var(--muted);
     font-size: 16px;
     transition: background 0.18s;
@@ -99,7 +99,7 @@
   .hero-card {
     margin: 20px 16px 0;
     border-radius: 22px;
-    background: linear-gradient(135deg, var(--mint-light) 0%, var(--mint-soft) 50%, var(--candy) 100%);
+    background: linear-gradient(135deg, var(--mint-bg) 0%, var(--mint-light) 40%, #f6e6ee 60%, #f9eef3 100%);
     padding: 26px 22px 22px;
     position: relative;
     overflow: hidden;
@@ -191,18 +191,19 @@
 
   .analyze-btn {
     width: 100%;
-    background: var(--mint-dark);
-    color: #fff;
+    background: #ffffff;
+    color: #2d2f3a;
     font-weight: 700;
+    /* stroke: #2d2f3a; */
     font-size: 14.5px;
-    border: none;
+    border: 2px solid var(--line);
     border-radius: 14px;
     padding: 14px;
     cursor: pointer;
     font-family: inherit;
     transition: background 0.18s, transform 0.1s;
   }
-  .analyze-btn:active { transform: scale(0.985); background: #2e6943; }
+  .analyze-btn:active { transform: scale(0.985); background: #d9d4cc; }
 
   /* SECTION HEADER */
   .section-header {
@@ -396,8 +397,8 @@
   }
   .qc-next {
     width: 100%;
-    background: var(--denim);
-    color: #fff;
+    background: #e7e3db;
+    color: #2d2f3a;
     border: none;
     padding: 14px;
     border-radius: 14px;
@@ -407,9 +408,9 @@
     font-family: inherit;
     transition: background 0.18s, transform 0.1s;
   }
-  .qc-next:active { transform: scale(0.985); background: var(--denim-d); }
+  .qc-next:active { transform: scale(0.985); background: #d9d4cc; }
   .qc-next:disabled { opacity: 0.35; cursor: not-allowed; }
-  .qc-next:disabled:active { transform: none; background: var(--denim); }
+  .qc-next:disabled:active { transform: none; background: #e7e3db; }
 
   /* QUIZ */
   .quiz-opt-letter {
@@ -497,8 +498,8 @@
   }
   .rw-convert-btn {
     width: 100%;
-    background: var(--denim);
-    color: #fff;
+    background: #e7e3db;
+    color: #2d2f3a;
     border: none;
     padding: 14px;
     border-radius: 14px;
@@ -509,7 +510,7 @@
     margin-bottom: 16px;
     transition: background 0.18s, transform 0.1s;
   }
-  .rw-convert-btn:active { transform: scale(0.985); background: var(--denim-d); }
+  .rw-convert-btn:active { transform: scale(0.985); background: #d9d4cc; }
 
   .sample-btn {
     text-align: left;
@@ -691,7 +692,7 @@
   }
 </style>
 
-<h2 class="sr-only">Before You Share — Website interaktif pencegah polarisasi politik berbasis nilai Pancasila</h2>
+<h2 class="sr-only">Before You Share - Interactive site to reduce political polarization based on Pancasila values</h2>
 
 <div id="app">
   <nav class="nav">
@@ -699,7 +700,7 @@
       <div class="nav-icon">✦</div>
       <div>
         <div class="nav-title">Before You Share</div>
-        <div class="nav-sub">Think before you share</div>
+        <div class="nav-sub">Share with care</div>
       </div>
     </div>
     <button class="nav-btn" aria-label="Settings">⚙</button>
@@ -710,25 +711,25 @@
     <!-- HOME -->
     <div class="page active" id="page-home">
       <div class="hero-card anim">
-        <span class="hero-label">Cek dulu, baru share</span>
-        <h1 class="hero-title">Aman nggak buat di-share?</h1>
-        <p class="hero-desc">Tempel link atau teks, lalu kami bantu cek nadanya sebelum kamu posting — mendeteksi potensi polarisasi dan provokasi.</p>
+        <span class="hero-label">Check before you share</span>
+        <h1 class="hero-title">Is it safe to share?</h1>
+        <p class="hero-desc">Paste a link or text, and we will check the tone before you post - detecting potential polarization and provocation.</p>
 
         <div id="input-type-toggle" style="display:flex;gap:6px;margin-bottom:10px;">
-          <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">Teks</button>
+          <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">Text</button>
           <button class="toggle-btn" id="btn-link" onclick="switchInput('link')">Link / URL</button>
         </div>
 
         <div id="text-input-wrap" class="textarea-wrap" style="display:block;">
-          <textarea id="text-input" placeholder="Tempel draft, caption, atau komentar di sini..."></textarea>
+          <textarea id="text-input" placeholder="Paste a draft, caption, or comment here..."></textarea>
         </div>
 
         <div id="link-input-wrap" class="input-wrap" style="display:none;">
           <span style="font-size:14px;opacity:0.6;">🔗</span>
-          <input type="url" id="link-input" placeholder="Tempel link artikel, postingan, atau URL...">
+          <input type="url" id="link-input" placeholder="Paste an article, post, or URL...">
         </div>
 
-        <button class="analyze-btn" onclick="runAnalysis()">Cek Sekarang</button>
+        <button class="analyze-btn" onclick="runAnalysis()">Check Now</button>
       </div>
 
       <div class="result-area" id="result-area">
@@ -740,7 +741,7 @@
           </div>
           <div class="meter-wrap">
             <div class="meter-label">
-              <span id="meter-label-txt">Risiko Polarisasi</span>
+              <span id="meter-label-txt">Polarization Risk</span>
               <span id="meter-pct" style="color:var(--muted)">0%</span>
             </div>
             <div class="meter-track"><div class="meter-fill" id="meter-fill" style="width:0%;background:var(--bad)"></div></div>
@@ -748,41 +749,41 @@
           <div id="detail-rows"></div>
         </div>
         <div class="suggestion-card anim anim-d1">
-          <div class="suggestion-label">Saran Pancasila</div>
+          <div class="suggestion-label">Pancasila Guidance</div>
           <div class="suggestion-text" id="suggestion-text"></div>
         </div>
-        <button class="reset-btn anim anim-d2" onclick="resetAnalysis()">← Cek konten lain</button>
+        <button class="reset-btn anim anim-d2" onclick="resetAnalysis()">← Check another item</button>
       </div>
 
       <div id="home-tools">
         <div class="section-header anim anim-d1">
           <span class="section-title">Tools</span>
-          <span class="section-sub">Pilih satu</span>
+          <span class="section-sub">Choose one</span>
         </div>
         <div class="tools-grid anim anim-d2">
           <div class="tool-card" onclick="gotoPage('qc')">
             <div class="tool-icon ic-candy">📋</div>
             <div class="tool-name">Quick Check</div>
             <div class="tool-tag">Instant Scan</div>
-            <div class="tool-desc">Scan kilat untuk bahasa provokatif dan pola misinformasi.</div>
+            <div class="tool-desc">Quick scan for provocative language and misinformation patterns.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('meter')">
             <div class="tool-icon ic-blue">📊</div>
             <div class="tool-name">Polarization Meter</div>
             <div class="tool-tag">Echo Bubble</div>
-            <div class="tool-desc">Lihat seberapa memecah konten kamu di skala echo chamber.</div>
+            <div class="tool-desc">See how divisive your content is on the echo-chamber scale.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('reword')">
             <div class="tool-icon ic-green">✏️</div>
             <div class="tool-name">Reword It</div>
-            <div class="tool-tag">Bahasa Beradab</div>
-            <div class="tool-desc">Ubah komentar emosional jadi bahasa yang lebih sopan.</div>
+            <div class="tool-tag">Civil Tone</div>
+            <div class="tool-desc">Rewrite emotional comments into more respectful language.</div>
           </div>
           <div class="tool-card" onclick="gotoPage('quiz')">
             <div class="tool-icon ic-blush">🎯</div>
             <div class="tool-name">Mini Quiz</div>
             <div class="tool-tag">Literacy Score</div>
-            <div class="tool-desc">Tes kebijakanmu menghadapi konten politik di medsos.</div>
+            <div class="tool-desc">Test your judgment when dealing with political content on social media.</div>
           </div>
         </div>
       </div>
@@ -791,7 +792,7 @@
     <!-- QUICK CHECK -->
     <div class="page" id="page-qc">
       <div class="qc-page">
-        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <button class="qc-back" onclick="gotoPage('home')">← Back</button>
         <div class="qc-progress-track"><div class="qc-progress-fill" id="qc-bar" style="width:0%"></div></div>
         <div id="qc-body"></div>
       </div>
@@ -800,19 +801,19 @@
     <!-- POLARIZATION METER -->
     <div class="page" id="page-meter">
       <div class="qc-page">
-        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <button class="qc-back" onclick="gotoPage('home')">← Back</button>
         <div class="qc-step-info">Polarization Meter</div>
-        <h2 class="qc-question">Seberapa provokatif kalimat ini?</h2>
+        <h2 class="qc-question">How provocative is this sentence?</h2>
         <div class="rw-before-box" style="margin-bottom:12px;">
-          <div class="rw-box-label label-before">Masukkan teks</div>
-          <textarea class="rw-textarea" id="meter-text" placeholder="Tulis atau tempel kalimat / caption politik..."></textarea>
+          <div class="rw-box-label label-before">Enter text</div>
+          <textarea class="rw-textarea" id="meter-text" placeholder="Write or paste a political sentence or caption..."></textarea>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-          <button class="sample-btn" onclick="setMeter('Saya kurang setuju dengan kebijakan tersebut karena dampaknya belum terukur.')">💬 Kalimat netral — coba ini</button>
-          <button class="sample-btn" onclick="setMeter('Kebijakan ini memang buruk, banyak yang terdampak tapi sepertinya tidak ada yang peduli.')">⚠️ Kalimat emosional — coba ini</button>
-          <button class="sample-btn" onclick="setMeter('Pendukung calon itu bodoh semua, tidak punya akal sehat!')">🚨 Kalimat provokatif — coba ini</button>
+          <button class="sample-btn" onclick="setMeter('I do not agree with this policy because its impact has not been measured yet.')">💬 Neutral sentence - try this</button>
+          <button class="sample-btn" onclick="setMeter('This policy is bad, many people are affected, but it seems no one cares.')">⚠️ Emotional sentence - try this</button>
+          <button class="sample-btn" onclick="setMeter('That candidate\'s supporters are all idiots and have no common sense!')">🚨 Provocative sentence - try this</button>
         </div>
-        <button class="rw-convert-btn" onclick="runMeter()">Analisis Sekarang</button>
+        <button class="rw-convert-btn" onclick="runMeter()">Analyze Now</button>
         <div id="meter-result" style="display:none;">
           <div class="result-card">
             <div class="result-header">
@@ -828,7 +829,7 @@
             </div>
           </div>
           <div class="suggestion-card" style="margin-top:12px;">
-            <div class="suggestion-label">Saran</div>
+            <div class="suggestion-label">Suggestion</div>
             <div class="suggestion-text" id="meter-suggestion"></div>
           </div>
         </div>
@@ -838,24 +839,24 @@
     <!-- REWORD IT -->
     <div class="page" id="page-reword">
       <div class="qc-page">
-        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <button class="qc-back" onclick="gotoPage('home')">← Back</button>
         <div class="qc-step-info">Reword It</div>
-        <h2 class="qc-question">Ubah jadi bahasa yang lebih beradab</h2>
+        <h2 class="qc-question">Make it more constructive</h2>
         <div class="rw-before-box">
-          <div class="rw-box-label label-before">Komentar asli</div>
-          <textarea class="rw-textarea" id="rw-in" placeholder="Tulis komentar emosional yang ingin diubah..."></textarea>
+          <div class="rw-box-label label-before">Original comment</div>
+          <textarea class="rw-textarea" id="rw-in" placeholder="Write the emotional comment you want to rewrite..."></textarea>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
-          <button class="sample-btn" onclick="setRW('Orang yang dukung itu pasti nggak mikir sama sekali!')">Orang yang dukung itu pasti nggak mikir!</button>
-          <button class="sample-btn" onclick="setRW('Pemimpin kita memang tidak becus, bikin malu saja.')">Pemimpin kita memang tidak becus!</button>
+          <button class="sample-btn" onclick="setRW('People who support that clearly do not think at all!')">People who support that do not think!</button>
+          <button class="sample-btn" onclick="setRW('Our leader is incompetent and embarrassing.')">Our leader is incompetent!</button>
         </div>
-        <button class="rw-convert-btn" onclick="doReword()">Ubah Sekarang</button>
+        <button class="rw-convert-btn" onclick="doReword()">Rewrite Now</button>
         <div id="rw-result-box" style="display:none;">
           <div class="rw-before-box">
-            <div class="rw-box-label label-after">Versi lebih konstruktif</div>
+            <div class="rw-box-label label-after">More constructive version</div>
             <div class="rw-output-text" id="rw-out"></div>
           </div>
-          <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;">Berbeda pendapat itu hak. Caranya yang membentuk kualitas demokrasi kita — Sila II Pancasila.</p>
+          <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;">Disagreeing is a right. The way we do it shapes the quality of our democracy - Sila II Pancasila.</p>
         </div>
       </div>
     </div>
@@ -863,7 +864,7 @@
     <!-- QUIZ -->
     <div class="page" id="page-quiz">
       <div class="qc-page">
-        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <button class="qc-back" onclick="gotoPage('home')">← Back</button>
         <div class="qc-progress-track"><div class="qc-progress-fill" id="quiz-bar" style="width:0%"></div></div>
         <div id="quiz-body"></div>
       </div>
@@ -871,7 +872,7 @@
 
   </div><!-- /pages -->
 
-  <nav class="bottom-nav">
+  <!-- <nav class="bottom-nav">
     <button class="bnav-item active" id="bnav-home" onclick="gotoPage('home')">
       <span class="bnav-icon">⊙</span>
       <span class="bnav-label">Home</span>
@@ -888,7 +889,7 @@
       <span class="bnav-icon">◎</span>
       <span class="bnav-label">Quiz</span>
     </button>
-  </nav>
+  </nav> -->
 </div>
 
 <script>
@@ -915,8 +916,8 @@ function gotoPage(id) {
   if(id==='quiz'){ qzStep=0; qzAns=new Array(4).fill(-1); renderQuiz(); }
 }
 
-var provocativeWords = ['bodoh','goblok','tolol','idiot','bajingan','bangsat','maling','pembohong','pasti bodoh','semua bodoh','tidak becus','tidak punya akal','malu','rusak','koruptor','munafik','penghianat'];
-var emotionalWords = ['tidak setuju','buruk','memang salah','parah','kecewa','tidak adil','sangat buruk','mengecewakan'];
+var provocativeWords = ['stupid','idiot','moron','jerk','scam','thief','liar','all idiots','everyone is','incompetent','no common sense','shameful','corrupt','traitor'];
+var emotionalWords = ['do not agree','bad','very bad','terrible','disappointed','unfair','outrageous','upsetting'];
 
 function scoreText(txt) {
   var s = 15;
@@ -933,7 +934,7 @@ function runAnalysis() {
   var txt = inputMode==='text'
     ? document.getElementById('text-input').value.trim()
     : document.getElementById('link-input').value.trim();
-  if(!txt){ alert('Masukkan teks atau link terlebih dahulu.'); return; }
+  if(!txt){ alert('Please enter text or a link first.'); return; }
 
   var score = scoreText(txt);
   var isLink = inputMode==='link';
@@ -955,28 +956,28 @@ function runAnalysis() {
 
   if(score<35){
     badge.className='result-verdict verdict-safe'; badge.textContent='✓ Safe to Share';
-    title.textContent=isLink?'Link ini terlihat aman':'Konten ini terlihat aman';
-    desc.textContent='Tidak terdeteksi pola provokatif atau narasi yang memecah belah. Kamu bisa membagikannya dengan percaya diri.';
+    title.textContent=isLink?'This link looks safe':'This content looks safe';
+    desc.textContent='No provocative patterns or divisive narratives were detected. You can share it with confidence.';
     fill.style.background='var(--ok)';
-    sugg.textContent='Konten ini sudah mencerminkan Sila III — menjaga persatuan. Tetap pertahankan kebiasaan berpikir sebelum berbagi.';
+    sugg.textContent='This reflects Sila III - protecting unity. Keep the habit of thinking before sharing.';
   } else if(score<65){
     badge.className='result-verdict verdict-check'; badge.textContent='⚠ Check Again';
-    title.textContent='Perlu dicek ulang';
-    desc.textContent='Ada beberapa elemen yang bisa memancing respons emosional. Pastikan sumber dan konteksnya valid sebelum disebarkan.';
+    title.textContent='Needs a second look';
+    desc.textContent='There are elements that could trigger emotional reactions. Make sure the source and context are valid before sharing.';
     fill.style.background='var(--warn)';
-    sugg.textContent='Sesuai Sila IV — pertimbangkan apakah konten ini mendorong musyawarah yang hikmat atau sebaliknya memperkeruh diskusi.';
+    sugg.textContent='In line with Sila IV - consider whether this content encourages wise deliberation or stirs conflict.';
   } else {
     badge.className='result-verdict verdict-danger'; badge.textContent='✗ Don\'t Share Yet';
-    title.textContent='Jangan disebarkan dulu';
-    desc.textContent='Konten ini berindikasi tinggi polarisasi — ada narasi provokatif, menyerang kelompok, atau berpotensi menjadi hoaks.';
+    title.textContent='Do not share yet';
+    desc.textContent='This content shows high polarization risk - it may be provocative, target a group, or be misleading.';
     fill.style.background='var(--bad)';
-    sugg.textContent='Melanggar semangat Sila II & III. Alih-alih menyebarkan, coba gunakan fitur Reword It untuk mengubah pesannya menjadi lebih beradab.';
+    sugg.textContent='This goes against the spirit of Sila II and III. Instead of sharing, try Reword It to make the message more civil.';
   }
 
   var checks = [
-    {k:'Provokasi', v: score>60?'Ditemukan pola kalimat menyerang atau memancing emosi.':'Tidak ditemukan indikasi provokatif yang signifikan.', c: score>60?'var(--bad)':'var(--ok)'},
-    {k:'Echo Chamber', v: score>40?'Narasi cenderung memperkuat satu sudut pandang.':'Narasi relatif berimbang.', c: score>40?'var(--warn)':'var(--ok)'},
-    {k:'Verifikasi', v: isLink?'Cek sumber dan tanggal penerbitan sebelum membagi.':'Pastikan klaim di dalam teks didukung data yang valid.', c:'var(--denim)'},
+    {k:'Provocation', v: score>60?'Found language that attacks or provokes emotions.':'No significant provocative signals found.', c: score>60?'var(--bad)':'var(--ok)'},
+    {k:'Echo Chamber', v: score>40?'The narrative tends to reinforce one viewpoint.':'The narrative is relatively balanced.', c: score>40?'var(--warn)':'var(--ok)'},
+    {k:'Verification', v: isLink?'Check the source and publish date before sharing.':'Make sure claims in the text are supported by valid data.', c:'var(--denim)'},
   ];
   rows.innerHTML = checks.map(function(c){
     return '<div class="detail-row"><div class="detail-dot" style="background:'+c.c+'"></div><div><div class="detail-key">'+c.k+'</div><div class="detail-val">'+c.v+'</div></div></div>';
@@ -1007,24 +1008,24 @@ function runMeter(){
   if(score<35){
     badge.className='result-verdict verdict-safe'; badge.textContent='Low Risk';
     fill.style.background='var(--ok)';
-    vtxt.textContent='Kalimat ini relatif netral dan tidak berpotensi memperkeruh polarisasi.';
-    sugg.textContent='Kalimat ini sudah baik. Tetap perhatikan konteks saat membagikannya di ruang publik.';
+    vtxt.textContent='This sentence is relatively neutral and unlikely to worsen polarization.';
+    sugg.textContent='This is already good. Keep context in mind when sharing publicly.';
   } else if(score<65){
     badge.className='result-verdict verdict-check'; badge.textContent='Medium Risk';
     fill.style.background='var(--warn)';
-    vtxt.textContent='Ada beberapa kata emosional yang bisa memancing respons negatif dari kubu lain.';
-    sugg.textContent='Coba kurangi kata yang terlalu emosional. Fokus pada fakta dan argumen konkret, bukan pada penyerangan identitas.';
+    vtxt.textContent='Some emotional words could trigger negative reactions from others.';
+    sugg.textContent='Reduce overly emotional wording. Focus on facts and concrete arguments, not identity attacks.';
   } else {
     badge.className='result-verdict verdict-danger'; badge.textContent='High Risk';
     fill.style.background='var(--bad)';
-    vtxt.textContent='Kalimat ini berisiko tinggi memperparah polarisasi dan menyerang kelompok tertentu.';
-    sugg.textContent='Ubah fokus: kritik kebijakan, bukan orangnya. Gunakan Reword It untuk bantuan mengubah kalimat ini menjadi lebih beradab.';
+    vtxt.textContent='This sentence has high risk of worsening polarization and targeting groups.';
+    sugg.textContent='Shift the focus: criticize policies, not people. Use Reword It to make this more civil.';
   }
 }
 
 function setMeter(txt){ document.getElementById('meter-text').value=txt; document.getElementById('meter-result').style.display='none'; setTimeout(runMeter,100); }
 
-var rwMap=[['tidak punya akal','belum mempertimbangkan dampak sepenuhnya'],['nggak mikir','perlu lebih banyak pertimbangan'],['bodoh','kurang memahami konteks'],['goblok','belum melihat gambaran yang lebih luas'],['tidak becus','masih perlu banyak perbaikan'],['bikin malu','perlu dievaluasi lebih serius'],['maling','diduga terlibat praktik tidak transparan'],['pembohong','pernyataannya perlu diverifikasi'],['pasti','kemungkinan'],['semua','sebagian besar']];
+var rwMap=[['no common sense','may have missed key context'],['do not think','need more consideration'],['stupid','may lack important context'],['idiot','may not see the bigger picture'],['incompetent','still needs significant improvement'],['embarrassing','needs more serious evaluation'],['thief','is alleged to be involved in nontransparent practices'],['liar','statements should be verified'],['always','often'],['everyone','many people']];
 
 function doReword(){
   var txt = document.getElementById('rw-in').value.trim();
@@ -1032,18 +1033,18 @@ function doReword(){
   var out=txt;
   rwMap.forEach(function(m){ out=out.replace(new RegExp(m[0],'gi'),m[1]); });
   out=out.replace(/!$/,'.'); out=out.charAt(0).toUpperCase()+out.slice(1);
-  if(out===txt) out='Saya kurang setuju dengan hal tersebut karena ada beberapa aspek yang menurut saya perlu dipertimbangkan lebih lanjut.';
+  if(out===txt) out='I disagree because there are aspects that should be considered more carefully.';
   document.getElementById('rw-out').textContent=out;
   document.getElementById('rw-result-box').style.display='block';
 }
 function setRW(t){ document.getElementById('rw-in').value=t; document.getElementById('rw-result-box').style.display='none'; }
 
 var qcQs=[
-  {q:'Apakah sumber informasi ini jelas dan bisa diverifikasi?',opts:['Ya, sumbernya jelas dan kredibel','Tidak yakin / tidak ada sumber yang dicantumkan','Tidak, sumbernya tidak jelas sama sekali']},
-  {q:'Apakah tanggal dan konteks konten ini masih relevan?',opts:['Ya, masih relevan dan up-to-date','Tidak yakin apakah masih relevan','Tidak, sudah lama atau konteksnya sudah berbeda']},
-  {q:'Apakah judul atau caption konten ini bersifat provokatif?',opts:['Tidak, judulnya netral dan informatif','Ada sedikit unsur emosional tapi masih wajar','Ya, sangat provokatif dan memancing emosi']},
-  {q:'Apakah ada data atau bukti yang mendukung klaim dalam konten ini?',opts:['Ya, ada data dan bukti yang jelas','Sebagian ada, sebagian tidak','Tidak ada sama sekali']},
-  {q:'Apakah konten ini menyerang atau merendahkan kelompok tertentu?',opts:['Tidak, konten ini netral terhadap semua pihak','Sedikit menyudutkan tapi tidak kasar','Ya, secara jelas menyerang kelompok tertentu']}
+  {q:'Is the information source clear and verifiable?',opts:['Yes, the source is clear and credible','Not sure / no source provided','No, the source is unclear']},
+  {q:'Is the date and context of this content still relevant?',opts:['Yes, it is still relevant and up to date','Not sure if it is still relevant','No, it is old or the context has changed']},
+  {q:'Is the title or caption provocative?',opts:['No, the title is neutral and informative','Some emotional tone but still reasonable','Yes, it is highly provocative and emotional']},
+  {q:'Is there data or evidence supporting the claims in this content?',opts:['Yes, there is clear data and evidence','Some exists, some does not','No, there is none']},
+  {q:'Does this content attack or demean a specific group?',opts:['No, it is neutral toward all sides','Slightly biased but not harsh','Yes, it clearly attacks a specific group']}
 ];
 var qcStep=0, qcAns=new Array(5).fill(-1);
 
@@ -1052,7 +1053,7 @@ function renderQC(){
   if(qcStep>=5){ showQCResult(); return; }
   bar.style.width=(qcStep/5*100)+'%';
   var q=qcQs[qcStep];
-  document.getElementById('qc-body').innerHTML='<div class="qc-step-info">Pertanyaan '+(qcStep+1)+' dari 5</div><div class="qc-question">'+q.q+'</div><div class="qc-options">'+q.opts.map(function(o,i){ return '<button class="qc-opt'+(qcAns[qcStep]===i?' selected':'')+'" onclick="selQC('+i+')"><div class="qc-opt-dot"></div><span>'+o+'</span></button>'; }).join('')+'</div><button class="qc-next" id="qc-next-btn" onclick="nextQC()" '+(qcAns[qcStep]===-1?'disabled':'')+'>'+( qcStep===4?'Lihat Hasil':'Lanjut →')+'</button>';
+  document.getElementById('qc-body').innerHTML='<div class="qc-step-info">Question '+(qcStep+1)+' of 5</div><div class="qc-question">'+q.q+'</div><div class="qc-options">'+q.opts.map(function(o,i){ return '<button class="qc-opt'+(qcAns[qcStep]===i?' selected':'')+'" onclick="selQC('+i+')"><div class="qc-opt-dot"></div><span>'+o+'</span></button>'; }).join('')+'</div><button class="qc-next" id="qc-next-btn" onclick="nextQC()" '+(qcAns[qcStep]===-1?'disabled':'')+'>'+( qcStep===4?'View Results':'Next →')+'</button>';
 }
 function selQC(i){ qcAns[qcStep]=i; renderQC(); }
 function nextQC(){ if(qcAns[qcStep]===-1)return; qcStep++; renderQC(); }
@@ -1060,17 +1061,17 @@ function showQCResult(){
   document.getElementById('qc-bar').style.width='100%';
   var score=qcAns.reduce(function(s,a){return s+(a===0?0:a===1?1:2);},0);
   var type,label,msg;
-  if(score<=3){type='safe';label='Safe to Share';msg='Konten ini terlihat cukup aman. Sumber jelas, konteks relevan, dan tidak bersifat provokatif. Kamu bisa membagikannya.';}
-  else if(score<=6){type='check';label='Check Again';msg='Ada beberapa hal yang perlu dicek ulang sebelum membagikan konten ini. Pastikan sumbernya kredibel dan konteksnya benar.';}
-  else{type='danger';label="Don't Share Yet";msg='Konten ini berisiko tinggi mengandung hoaks, narasi provokatif, atau serangan terhadap kelompok tertentu. Lebih baik tidak disebarkan.';}
-  document.getElementById('qc-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+(score<=3?'✓':score<=6?'~':'✗')+'</div><div class="result-verdict verdict-'+type+'" style="margin:0 auto 14px;">'+label+'</div><p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qcStep=0;qcAns=new Array(5).fill(-1);renderQC();">Cek Konten Lain</button></div>';
+  if(score<=3){type='safe';label='Safe to Share';msg='This content looks safe. The source is clear, the context is relevant, and it is not provocative. You can share it.';}
+  else if(score<=6){type='check';label='Check Again';msg='There are a few things to verify before sharing. Make sure the source is credible and the context is correct.';}
+  else{type='danger';label="Don't Share Yet";msg='This content has high risk of misinformation, provocative framing, or group attacks. It is better not to share it.';}
+  document.getElementById('qc-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+(score<=3?'✓':score<=6?'~':'✗')+'</div><div class="result-verdict verdict-'+type+'" style="margin:0 auto 14px;">'+label+'</div><p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qcStep=0;qcAns=new Array(5).fill(-1);renderQC();">Check another item</button></div>';
 }
 
 var qzQs=[
-  {q:'Kamu melihat berita politik yang membuatmu emosi, tapi sumbernya tidak jelas. Apa yang kamu lakukan?',opts:['Langsung share karena setuju','Share ke grup keluarga','Cek sumber dan bandingkan dengan media lain dulu','Komentar marah-marah di kolom komentar'],correct:2,fb:'Benar! Verifikasi sumber adalah langkah pertama sebelum membagikan informasi apapun — terutama yang menyangkut isu politik.'},
-  {q:'Ada konten dengan judul sangat provokatif tapi belum membaca isinya. Kamu akan?',opts:['Share langsung karena judul sudah jelas','Simpan untuk dibagikan nanti','Baca dulu isinya sepenuhnya sebelum membagi','Minta teman memverifikasinya'],correct:2,fb:'Tepat! Judul provokatif sering digunakan untuk clickbait. Baca seluruh isinya sebelum membagi — ini bagian dari kebijaksanaan Sila IV.'},
-  {q:'Seseorang di grup mengirim konten yang mendukung pandangan politikmu. Bagaimana sikapmu?',opts:['Langsung forward ke grup lain','Like dan share tanpa berpikir panjang','Tetap cek faktanya meski setuju isinya','Balas dengan komentar panjang mendukungnya'],correct:2,fb:'Benar! Bias konfirmasi membuat kita mudah percaya info yang sesuai pandangan. Tetap kritis meski isinya mendukung pendapatmu.'},
-  {q:'Cara terbaik berkomentar tentang isu politik yang membuatmu kesal adalah?',opts:['Tulis langsung semua yang dirasakan','Gunakan kata-kata keras agar pesannya kuat','Fokus pada kebijakan, bukan menyerang orangnya','Tag sebanyak mungkin orang agar viral'],correct:2,fb:'Tepat! Kritik yang efektif fokus pada isu dan kebijakan — bukan menyerang personal. Ini lebih beradab sesuai Sila II Pancasila.'}
+  {q:'You see political news that makes you emotional, but the source is unclear. What do you do?',opts:['Share right away because I agree','Share to the family group','Check the source and compare with other outlets first','Leave an angry comment'],correct:2,fb:'Correct! Verifying the source is the first step before sharing any information, especially political issues.'},
+  {q:'A post has a very provocative headline but you have not read the content. You will?',opts:['Share immediately because the headline is clear','Save it to share later','Read the full content before sharing','Ask a friend to verify it'],correct:2,fb:'Right! Provocative headlines are often clickbait. Read the full content before sharing - part of Sila IV wisdom.'},
+  {q:'Someone in a group shares content that supports your political view. How do you respond?',opts:['Forward it to other groups','Like and share without thinking','Still check the facts even if I agree','Reply with a long supportive comment'],correct:2,fb:'Correct! Confirmation bias makes us trust information that matches our view. Stay critical even when it supports your opinion.'},
+  {q:'The best way to comment on a political issue that annoys you is?',opts:['Write everything I feel right away','Use harsh words to make it strong','Focus on policy, not attacking the person','Tag as many people as possible to go viral'],correct:2,fb:'Right! Effective criticism focuses on issues and policy, not personal attacks. This is more civil, in line with Sila II Pancasila.'}
 ];
 var qzStep=0, qzAns=new Array(4).fill(-1);
 
@@ -1079,7 +1080,7 @@ function renderQuiz(){
   if(qzStep>=qzQs.length){showQuizScore();return;}
   bar.style.width=(qzStep/qzQs.length*100)+'%';
   var q=qzQs[qzStep];
-  document.getElementById('quiz-body').innerHTML='<div class="qc-step-info">Soal '+(qzStep+1)+' dari '+qzQs.length+'</div><div class="qc-question">'+q.q+'</div><div class="qc-options" id="qz-opts">'+q.opts.map(function(o,i){return '<button class="qc-opt" onclick="answerQuiz('+i+')" id="qzopt'+i+'"><div class="quiz-opt-letter">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>';}).join('')+'</div><div class="feedback-card" id="qz-fb">'+q.fb+'</div><button class="qc-next" id="qz-next" style="display:none" onclick="qzStep++;renderQuiz();">'+(qzStep===qzQs.length-1?'Lihat Hasil':'Pertanyaan Berikutnya')+'</button>';
+  document.getElementById('quiz-body').innerHTML='<div class="qc-step-info">Question '+(qzStep+1)+' of '+qzQs.length+'</div><div class="qc-question">'+q.q+'</div><div class="qc-options" id="qz-opts">'+q.opts.map(function(o,i){return '<button class="qc-opt" onclick="answerQuiz('+i+')" id="qzopt'+i+'"><div class="quiz-opt-letter">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>';}).join('')+'</div><div class="feedback-card" id="qz-fb">'+q.fb+'</div><button class="qc-next" id="qz-next" style="display:none" onclick="qzStep++;renderQuiz();">'+(qzStep===qzQs.length-1?'View Results':'Next Question')+'</button>';
 }
 function answerQuiz(i){
   if(document.querySelector('.qc-opt.correct')||document.querySelector('.qc-opt.wrong'))return;
@@ -1098,8 +1099,8 @@ function showQuizScore(){
   var score=qzAns.filter(function(a,i){return a===qzQs[i].correct;}).length;
   var pct=Math.round(score/qzQs.length*100);
   var badge=pct>=75?'Digital Peace Maker':pct>=50?'On the Right Track':'Need More Pause';
-  var msg=pct>=75?'Kamu sudah cukup bijak dalam menyikapi konten politik. Terus praktikkan dan bagikan kebiasaan baik ini!':pct>=50?'Kamu di jalur yang tepat! Masih ada ruang untuk berkembang. Gunakan Quick Check setiap kali ingin berbagi.':'Perlu lebih sering berhenti sejenak sebelum share. Jadikan Before You Share sebagai panduan harianmu.';
-  document.getElementById('quiz-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+score+'/'+qzQs.length+'</div><div style="font-size:19px;font-weight:800;color:var(--ink);margin-bottom:10px;">Skor kamu: '+pct+'%</div><div class="score-badge">'+badge+'</div><p style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qzStep=0;qzAns=new Array(4).fill(-1);renderQuiz();">Ulangi Quiz</button></div>';
+  var msg=pct>=75?'You are already quite wise in handling political content. Keep practicing and share this good habit!':pct>=50?'You are on the right track. There is still room to improve. Use Quick Check whenever you want to share.':'Pause more often before sharing. Make Before You Share your daily guide.';
+  document.getElementById('quiz-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+score+'/'+qzQs.length+'</div><div style="font-size:19px;font-weight:800;color:var(--ink);margin-bottom:10px;">Your score: '+pct+'%</div><div class="score-badge">'+badge+'</div><p style="font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qzStep=0;qzAns=new Array(4).fill(-1);renderQuiz();">Retake Quiz</button></div>';
 }
 
 renderQC();
