@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Before You Share</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:       #0D0F1A;
+    --surface:  #151826;
+    --card:     #1C1F30;
+    --card2:    #222538;
+    --purple:   #7B6EF6;
+    --purple2:  #9D94FF;
+    --teal:     #2DD4BF;
+    --teal2:    #14B8A6;
+    --white:    #FFFFFF;
+    --text:     #E2E8F0;
+    --muted:    #7A849A;
+    --border:   rgba(255,255,255,0.07);
+    --green:    #22C55E;
+    --amber:    #F59E0B;
+    --red:      #EF4444;
+  }
+
+  body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  /* NAV */
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    background: rgba(13,15,26,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 50;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-icon {
+    width: 32px; height: 32px;
+    background: var(--purple);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .nav-title { font-weight: 700; font-size: 16px; color: var(--white); }
+  .nav-sub { font-size: 10px; color: var(--teal); letter-spacing: 1.5px; text-transform: uppercase; }
+  .nav-btn {
+    width: 36px; height: 36px;
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 18px;
+    transition: color 0.2s;
+  }
+  .nav-btn:hover { color: var(--white); }
+
+  /* PAGE SWITCHER */
+  .pages { overflow: hidden; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* HERO CARD */
+  .hero-card {
+    margin: 20px 16px 0;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #6B21A8 0%, #7C3AED 30%, #0891B2 70%, #0D9488 100%);
+    padding: 28px 24px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .hero-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 100px; height: 100px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .hero-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 30px;
+    color: #fff;
+    line-height: 1.15;
+    margin-bottom: 10px;
+  }
+  .hero-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  /* INPUT AREA */
+  .input-wrap {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 4px 4px 4px 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .input-wrap input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    color: #fff;
+    font-family: inherit;
+    padding: 8px 0;
+  }
+  .input-wrap input::placeholder { color: rgba(255,255,255,0.45); }
+  .input-toggle {
+    display: flex;
+    gap: 4px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .toggle-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    background: none;
+    color: rgba(255,255,255,0.5);
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .toggle-btn.active { background: rgba(255,255,255,0.2); color: #fff; }
+
+  .textarea-wrap {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .textarea-wrap textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    font-size: 13.5px;
+    color: #fff;
+    font-family: inherit;
+    resize: none;
+    height: 72px;
+    line-height: 1.5;
+  }
+  .textarea-wrap textarea::placeholder { color: rgba(255,255,255,0.4); }
+
+  .analyze-btn {
+    width: 100%;
+    background: #fff;
+    color: #4C1D95;
+    font-weight: 700;
+    font-size: 15px;
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .analyze-btn:hover { opacity: 0.92; }
+  .analyze-btn:active { transform: scale(0.98); }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 20px 14px;
+  }
+  .section-title { font-size: 17px; font-weight: 700; color: var(--white); }
+  .section-sub { font-size: 12px; color: var(--muted); }
+
+  /* TOOLS GRID */
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 0 16px 24px; }
+  .tool-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .tool-card:hover { border-color: var(--purple); background: var(--card2); }
+  .tool-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .tool-name { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+  .tool-tag { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .tool-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* RESULT CARD */
+  .result-area { padding: 0 16px 24px; display: none; }
+  .result-area.visible { display: block; }
+
+  .result-card {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .result-header {
+    padding: 18px 18px 14px;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .result-verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .verdict-safe { background: rgba(34,197,94,0.15); color: #4ADE80; }
+  .verdict-check { background: rgba(245,158,11,0.15); color: #FCD34D; }
+  .verdict-danger { background: rgba(239,68,68,0.15); color: #FCA5A5; }
+
+  .result-title { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .result-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* RISK METER */
+  .meter-wrap { padding: 16px 18px; }
+  .meter-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
+  .meter-label span { font-size: 12px; font-weight: 600; }
+  .meter-track { background: rgba(255,255,255,0.1); border-radius: 50px; height: 6px; }
+  .meter-fill { height: 6px; border-radius: 50px; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+
+  /* DETAIL ROWS */
+  .detail-row {
+    padding: 12px 18px;
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .detail-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-top: 5px;
+    flex-shrink: 0;
+  }
+  .detail-key { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+  .detail-val { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* SUGGESTION */
+  .suggestion-card {
+    background: rgba(123,110,246,0.1);
+    border: 0.5px solid rgba(123,110,246,0.3);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .suggestion-label { font-size: 11px; font-weight: 700; color: var(--purple2); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .suggestion-text { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+  .reset-btn {
+    width: 100%;
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    color: var(--muted);
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .reset-btn:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
+
+  /* QUICK CHECK PAGE */
+  .qc-page { padding: 20px 16px; }
+  .qc-back {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted);
+    cursor: pointer; margin-bottom: 20px;
+    background: none; border: none; font-family: inherit;
+    transition: color 0.2s;
+  }
+  .qc-back:hover { color: var(--white); }
+  .qc-progress-track { background: rgba(255,255,255,0.1); border-radius: 50px; height: 4px; margin-bottom: 24px; }
+  .qc-progress-fill { height: 4px; border-radius: 50px; background: var(--purple); transition: width 0.4s; }
+  .qc-step-info { font-size: 12px; color: var(--muted); margin-bottom: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+  .qc-question { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--white); line-height: 1.3; margin-bottom: 24px; }
+  .qc-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+  .qc-opt {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    font-family: inherit;
+    text-align: left;
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .qc-opt:hover { border-color: var(--purple); background: var(--card2); }
+  .qc-opt.selected { border-color: var(--purple); background: rgba(123,110,246,0.12); color: var(--white); }
+  .qc-opt-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .qc-opt.selected .qc-opt-dot { background: var(--purple); border-color: var(--purple); }
+  .qc-next {
+    width: 100%;
+    background: var(--purple);
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.2s;
+  }
+  .qc-next:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* QUIZ PAGE */
+  .quiz-opt-letter {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--muted);
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .qc-opt.selected .quiz-opt-letter { background: var(--purple); color: #fff; }
+  .qc-opt.correct { border-color: var(--green); background: rgba(34,197,94,0.1); }
+  .qc-opt.correct .quiz-opt-letter { background: var(--green); color: #fff; }
+  .qc-opt.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); }
+  .qc-opt.wrong .quiz-opt-letter { background: var(--red); color: #fff; }
+
+  .feedback-card {
+    background: rgba(123,110,246,0.1);
+    border: 0.5px solid rgba(123,110,246,0.3);
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: none;
+  }
+  .feedback-card.visible { display: block; }
+
+  /* SCORE */
+  .score-wrap { text-align: center; padding: 20px 0; }
+  .score-ring {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple), var(--teal));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px; color: #fff;
+  }
+  .score-badge {
+    display: inline-block;
+    padding: 5px 16px;
+    background: rgba(123,110,246,0.15);
+    color: var(--purple2);
+    border-radius: 50px;
+    font-size: 12px; font-weight: 700;
+    margin-bottom: 12px;
+  }
+
+  /* REWORD PAGE */
+  .rw-before-box {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .rw-box-label {
+    padding: 10px 14px;
+    font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .label-before { color: var(--red); background: rgba(239,68,68,0.08); }
+  .label-after { color: var(--green); background: rgba(34,197,94,0.08); }
+  .rw-textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 14px;
+    font-size: 14px;
+    color: var(--text);
+    font-family: inherit;
+    resize: none;
+    height: 80px;
+    line-height: 1.6;
+  }
+  .rw-output-text {
+    padding: 14px;
+    font-size: 14px;
+    color: #4ADE80;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+  .rw-convert-btn {
+    width: 100%;
+    background: linear-gradient(135deg, var(--purple), var(--teal2));
+    color: #fff;
+    border: none;
+    padding: 14px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    margin-bottom: 16px;
+  }
+
+  /* BOTTOM NAV */
+  .bottom-nav {
+    position: sticky;
+    bottom: 0;
+    background: rgba(13,15,26,0.95);
+    backdrop-filter: blur(12px);
+    border-top: 0.5px solid var(--border);
+    display: flex;
+    padding: 10px 0 16px;
+  }
+  .bnav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    padding: 6px 0;
+    border: none;
+    background: none;
+    color: var(--muted);
+    font-family: inherit;
+    transition: color 0.2s;
+  }
+  .bnav-item.active { color: var(--purple2); }
+  .bnav-icon { font-size: 22px; }
+  .bnav-label { font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+
+  /* Animations */
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anim { animation: slideUp 0.3s ease both; }
+  .anim-d1 { animation-delay: 0.05s; }
+  .anim-d2 { animation-delay: 0.1s; }
+  .anim-d3 { animation-delay: 0.15s; }
+</style>
+
+<h2 class="sr-only">Before You Share — Website interaktif pencegah polarisasi politik berbasis nilai Pancasila</h2>
+
+<div id="app">
+  <nav class="nav">
+    <div class="nav-logo">
+      <div class="nav-icon">✦</div>
+      <div>
+        <div class="nav-title">Before You Share</div>
+        <div class="nav-sub">Think before you share</div>
+      </div>
+    </div>
+    <button class="nav-btn" aria-label="Settings">⚙</button>
+  </nav>
+
+  <div class="pages">
+
+    <!-- ═══ HOME ═══ -->
+    <div class="page active" id="page-home">
+      <div class="hero-card anim">
+        <div class="hero-label">AI-Powered Analysis</div>
+        <h1 class="hero-title">Is this safe to share?</h1>
+        <p class="hero-desc">Paste a link or text to analyze the vibe before you post. Our system detects polarization, tone, and potential friction.</p>
+
+        <div id="input-type-toggle" style="display:flex;gap:6px;margin-bottom:12px;">
+          <button class="toggle-btn active" id="btn-text" onclick="switchInput('text')">Text</button>
+          <button class="toggle-btn" id="btn-link" onclick="switchInput('link')">Link / URL</button>
+        </div>
+
+        <div id="text-input-wrap" class="textarea-wrap" style="display:block;">
+          <textarea id="text-input" placeholder="Paste your draft, caption, or komentar di sini..."></textarea>
+        </div>
+
+        <div id="link-input-wrap" class="input-wrap" style="display:none;">
+          <span style="color:rgba(255,255,255,0.5);font-size:14px;">🔗</span>
+          <input type="url" id="link-input" placeholder="Paste link artikel, postingan, atau URL...">
+        </div>
+
+        <button class="analyze-btn" onclick="runAnalysis()">Analyze</button>
+      </div>
+
+      <div class="result-area" id="result-area">
+        <div class="result-card anim">
+          <div class="result-header">
+            <div class="result-verdict" id="result-verdict-badge"></div>
+            <div class="result-title" id="result-title"></div>
+            <div class="result-desc" id="result-desc"></div>
+          </div>
+          <div class="meter-wrap">
+            <div class="meter-label">
+              <span id="meter-label-txt" style="color:#fff">Polarization Risk</span>
+              <span id="meter-pct" style="color:var(--muted)">0%</span>
+            </div>
+            <div class="meter-track"><div class="meter-fill" id="meter-fill" style="width:0%;background:var(--red)"></div></div>
+          </div>
+          <div id="detail-rows"></div>
+        </div>
+        <div class="suggestion-card anim anim-d1">
+          <div class="suggestion-label">Saran Pancasila</div>
+          <div class="suggestion-text" id="suggestion-text"></div>
+        </div>
+        <button class="reset-btn anim anim-d2" onclick="resetAnalysis()">← Cek konten lain</button>
+      </div>
+
+      <div id="home-tools">
+        <div class="section-header anim anim-d1">
+          <span class="section-title">Core Tools</span>
+          <span class="section-sub">Swipe to explore</span>
+        </div>
+        <div class="tools-grid anim anim-d2">
+          <div class="tool-card" onclick="gotoPage('qc')">
+            <div class="tool-icon" style="background:rgba(123,110,246,0.15)">📋</div>
+            <div class="tool-name">Quick Check</div>
+            <div class="tool-tag">Instant Analysis</div>
+            <div class="tool-desc">A rapid scan for inflammatory language and misinformation patterns.</div>
+          </div>
+          <div class="tool-card" onclick="gotoPage('meter')">
+            <div class="tool-icon" style="background:rgba(245,158,11,0.15)">📊</div>
+            <div class="tool-name">Pola­rization Meter</div>
+            <div class="tool-tag">View Echo Bubble</div>
+            <div class="tool-desc">Visualize how polarizing your content is on the echo chamber scale.</div>
+          </div>
+          <div class="tool-card" onclick="gotoPage('reword')">
+            <div class="tool-icon" style="background:rgba(45,212,191,0.15)">✏️</div>
+            <div class="tool-name">Reword It</div>
+            <div class="tool-tag">Bahasa Beradab</div>
+            <div class="tool-desc">Transform emotional comments into constructive, civil language.</div>
+          </div>
+          <div class="tool-card" onclick="gotoPage('quiz')">
+            <div class="tool-icon" style="background:rgba(239,68,68,0.12)">🎯</div>
+            <div class="tool-name">Mini Quiz</div>
+            <div class="tool-tag">Literacy Score</div>
+            <div class="tool-desc">Test your digital wisdom in navigating political content.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ QUICK CHECK ═══ -->
+    <div class="page" id="page-qc">
+      <div class="qc-page">
+        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <div class="qc-progress-track"><div class="qc-progress-fill" id="qc-bar" style="width:0%"></div></div>
+        <div id="qc-body"></div>
+      </div>
+    </div>
+
+    <!-- ═══ POLARIZATION METER ═══ -->
+    <div class="page" id="page-meter">
+      <div class="qc-page">
+        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <div class="qc-step-info">Polarization Meter</div>
+        <h2 class="qc-question">Seberapa provokatif kalimat ini?</h2>
+        <div class="rw-before-box" style="margin-bottom:12px;">
+          <div class="rw-box-label label-before">Masukkan teks</div>
+          <textarea class="rw-textarea" id="meter-text" placeholder="Tulis atau paste kalimat / caption politik..."></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <button onclick="setMeter('Saya kurang setuju dengan kebijakan tersebut karena dampaknya belum terukur.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">💬 Kalimat netral — coba ini</button>
+          <button onclick="setMeter('Kebijakan ini memang buruk, banyak yang terdampak tapi sepertinya tidak ada yang peduli.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">⚠️ Kalimat emosional — coba ini</button>
+          <button onclick="setMeter('Pendukung calon itu bodoh semua, tidak punya akal sehat!')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">🚨 Kalimat provokatif — coba ini</button>
+        </div>
+        <button class="rw-convert-btn" onclick="runMeter()">Analisis Sekarang</button>
+        <div id="meter-result" style="display:none;">
+          <div class="result-card">
+            <div class="result-header">
+              <div class="result-verdict" id="meter-verdict-badge"></div>
+              <div class="result-desc" id="meter-verdict-text"></div>
+            </div>
+            <div class="meter-wrap">
+              <div class="meter-label">
+                <span id="meter2-lbl" style="color:#fff;font-weight:600;">Risk Score</span>
+                <span id="meter2-pct" style="color:var(--muted)"></span>
+              </div>
+              <div class="meter-track"><div class="meter-fill" id="meter2-fill" style="width:0%"></div></div>
+            </div>
+          </div>
+          <div class="suggestion-card" style="margin-top:12px;">
+            <div class="suggestion-label">Saran</div>
+            <div class="suggestion-text" id="meter-suggestion"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ REWORD IT ═══ -->
+    <div class="page" id="page-reword">
+      <div class="qc-page">
+        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <div class="qc-step-info">Reword It</div>
+        <h2 class="qc-question">Ubah jadi bahasa yang lebih beradab</h2>
+        <div class="rw-before-box">
+          <div class="rw-box-label label-before">Komentar asli</div>
+          <textarea class="rw-textarea" id="rw-in" placeholder="Tulis komentar emosional yang ingin diubah..."></textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+          <button onclick="setRW('Orang yang dukung itu pasti nggak mikir sama sekali!')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">Orang yang dukung itu pasti nggak mikir!</button>
+          <button onclick="setRW('Pemimpin kita memang tidak becus, bikin malu saja.')" style="text-align:left;padding:10px 14px;background:var(--card);border:0.5px solid var(--border);border-radius:10px;font-size:12.5px;color:var(--muted);cursor:pointer;font-family:inherit;">Pemimpin kita memang tidak becus!</button>
+        </div>
+        <button class="rw-convert-btn" onclick="doReword()">Ubah Sekarang</button>
+        <div id="rw-result-box" style="display:none;">
+          <div class="rw-before-box">
+            <div class="rw-box-label label-after">Versi lebih konstruktif</div>
+            <div class="rw-output-text" id="rw-out"></div>
+          </div>
+          <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6;">Berbeda pendapat itu hak. Caranya yang membentuk kualitas demokrasi kita — Sila II Pancasila.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ QUIZ ═══ -->
+    <div class="page" id="page-quiz">
+      <div class="qc-page">
+        <button class="qc-back" onclick="gotoPage('home')">← Kembali</button>
+        <div class="qc-progress-track"><div class="qc-progress-fill" id="quiz-bar" style="width:0%"></div></div>
+        <div id="quiz-body"></div>
+      </div>
+    </div>
+
+  </div><!-- /pages -->
+
+  <nav class="bottom-nav">
+    <button class="bnav-item active" id="bnav-home" onclick="gotoPage('home')">
+      <span class="bnav-icon">⊙</span>
+      <span class="bnav-label">Home</span>
+    </button>
+    <button class="bnav-item" id="bnav-qc" onclick="gotoPage('qc')">
+      <span class="bnav-icon">☑</span>
+      <span class="bnav-label">Quick Check</span>
+    </button>
+    <button class="bnav-item" id="bnav-reword" onclick="gotoPage('reword')">
+      <span class="bnav-icon">✎</span>
+      <span class="bnav-label">Reword</span>
+    </button>
+    <button class="bnav-item" id="bnav-quiz" onclick="gotoPage('quiz')">
+      <span class="bnav-icon">◎</span>
+      <span class="bnav-label">Quiz</span>
+    </button>
+  </nav>
+</div>
+
+<script>
+var inputMode = 'text';
+
+function switchInput(mode) {
+  inputMode = mode;
+  document.getElementById('btn-text').className = 'toggle-btn' + (mode==='text'?' active':'');
+  document.getElementById('btn-link').className = 'toggle-btn' + (mode==='link'?' active':'');
+  document.getElementById('text-input-wrap').style.display = mode==='text'?'block':'none';
+  document.getElementById('link-input-wrap').style.display = mode==='link'?'flex':'none';
+}
+
+var pageMap = {home:'page-home',qc:'page-qc',meter:'page-meter',reword:'page-reword',quiz:'page-quiz'};
+var bnavMap = {home:'bnav-home',qc:'bnav-qc',meter:null,reword:'bnav-reword',quiz:'bnav-quiz'};
+
+function gotoPage(id) {
+  Object.values(pageMap).forEach(function(p){ document.getElementById(p).className='page'; });
+  document.getElementById(pageMap[id]).className='page active';
+  Object.values(bnavMap).forEach(function(b){ if(b) document.getElementById(b).className='bnav-item'; });
+  if(bnavMap[id]) document.getElementById(bnavMap[id]).className='bnav-item active';
+  if(id==='qc'){ qcStep=0; qcAns=new Array(5).fill(-1); renderQC(); }
+  if(id==='quiz'){ qzStep=0; qzAns=new Array(4).fill(-1); renderQuiz(); }
+}
+
+var provocativeWords = ['bodoh','goblok','tolol','idiot','bajingan','bangsat','maling','pembohong','pasti bodoh','semua bodoh','tidak becus','tidak punya akal','malu','rusak','koruptor','munafik','penghianat'];
+var emotionalWords = ['tidak setuju','buruk','memang salah','parah','kecewa','tidak adil','sangat buruk','mengecewakan'];
+
+function scoreText(txt) {
+  var s = 15;
+  var lo = txt.toLowerCase();
+  provocativeWords.forEach(function(w){ if(lo.indexOf(w)>=0) s+=22; });
+  emotionalWords.forEach(function(w){ if(lo.indexOf(w)>=0) s+=9; });
+  if((txt.match(/!/g)||[]).length>0) s+=8;
+  if(lo.indexOf('semua')>=0||lo.indexOf('pasti')>=0||lo.indexOf('selalu')>=0) s+=14;
+  if(lo.indexOf('http')>=0||lo.indexOf('www.')>=0) s+=5;
+  return Math.min(s,100);
+}
+
+function runAnalysis() {
+  var txt = inputMode==='text'
+    ? document.getElementById('text-input').value.trim()
+    : document.getElementById('link-input').value.trim();
+  if(!txt){ alert('Masukkan teks atau link terlebih dahulu.'); return; }
+
+  var score = scoreText(txt);
+  var isLink = inputMode==='link';
+
+  document.getElementById('home-tools').style.display='none';
+  var ra = document.getElementById('result-area');
+  ra.className='result-area visible';
+
+  var badge = document.getElementById('result-verdict-badge');
+  var title = document.getElementById('result-title');
+  var desc = document.getElementById('result-desc');
+  var fill = document.getElementById('meter-fill');
+  var pct = document.getElementById('meter-pct');
+  var sugg = document.getElementById('suggestion-text');
+  var rows = document.getElementById('detail-rows');
+
+  setTimeout(function(){ fill.style.width=score+'%'; }, 150);
+  pct.textContent=score+'%';
+
+  if(score<35){
+    badge.className='result-verdict verdict-safe'; badge.textContent='✓ Safe to Share';
+    title.textContent=isLink?'Link ini terlihat aman':'Konten ini terlihat aman';
+    desc.textContent='Tidak terdeteksi pola provokatif atau narasi yang memecah belah. Kamu bisa membagikannya dengan percaya diri.';
+    fill.style.background='#22C55E';
+    sugg.textContent='Konten ini sudah mencerminkan Sila III — menjaga persatuan. Tetap pertahankan kebiasaan berpikir sebelum berbagi.';
+  } else if(score<65){
+    badge.className='result-verdict verdict-check'; badge.textContent='⚠ Check Again';
+    title.textContent='Perlu dicek ulang';
+    desc.textContent='Ada beberapa elemen yang bisa memancing respons emosional. Pastikan sumber dan konteksnya valid sebelum disebarkan.';
+    fill.style.background='#F59E0B';
+    sugg.textContent='Sesuai Sila IV — pertimbangkan apakah konten ini mendorong musyawarah yang hikmat atau sebaliknya memperkeruh diskusi.';
+  } else {
+    badge.className='result-verdict verdict-danger'; badge.textContent='✗ Don\'t Share Yet';
+    title.textContent='Jangan disebarkan dulu';
+    desc.textContent='Konten ini berindikasi tinggi polarisasi — ada narasi provokatif, menyerang kelompok, atau berpotensi menjadi hoaks.';
+    fill.style.background='#EF4444';
+    sugg.textContent='Melanggar semangat Sila II & III. Alih-alih menyebarkan, coba gunakan fitur Reword It untuk mengubah pesannya menjadi lebih beradab.';
+  }
+
+  var checks = [
+    {k:'Provokasi', v: score>60?'Ditemukan pola kalimat menyerang atau memancing emosi.':'Tidak ditemukan indikasi provokatif yang signifikan.', c: score>60?'#EF4444':'#22C55E'},
+    {k:'Echo Chamber', v: score>40?'Narasi cenderung memperkuat satu sudut pandang.':'Narasi relatif berimbang.', c: score>40?'#F59E0B':'#22C55E'},
+    {k:'Verifikasi', v: isLink?'Cek sumber dan tanggal penerbitan sebelum membagi.':'Pastikan klaim di dalam teks didukung data yang valid.', c:'#7B6EF6'},
+  ];
+  rows.innerHTML = checks.map(function(c){
+    return '<div class="detail-row"><div class="detail-dot" style="background:'+c.c+'"></div><div><div class="detail-key">'+c.k+'</div><div class="detail-val">'+c.v+'</div></div></div>';
+  }).join('');
+}
+
+function resetAnalysis(){
+  document.getElementById('result-area').className='result-area';
+  document.getElementById('home-tools').style.display='block';
+  document.getElementById('text-input').value='';
+  document.getElementById('link-input').value='';
+  document.getElementById('meter-fill').style.width='0%';
+}
+
+function runMeter(){
+  var txt = document.getElementById('meter-text').value.trim();
+  if(!txt) return;
+  var score = scoreText(txt);
+  var res = document.getElementById('meter-result');
+  res.style.display='block';
+  var badge = document.getElementById('meter-verdict-badge');
+  var vtxt = document.getElementById('meter-verdict-text');
+  var fill = document.getElementById('meter2-fill');
+  var ppct = document.getElementById('meter2-pct');
+  var sugg = document.getElementById('meter-suggestion');
+  setTimeout(function(){ fill.style.width=score+'%'; },100);
+  ppct.textContent=score+'%';
+  if(score<35){
+    badge.className='result-verdict verdict-safe'; badge.textContent='Low Risk';
+    fill.style.background='#22C55E';
+    vtxt.textContent='Kalimat ini relatif netral dan tidak berpotensi memperkeruh polarisasi.';
+    sugg.textContent='Kalimat ini sudah baik. Tetap perhatikan konteks saat membagikannya di ruang publik.';
+  } else if(score<65){
+    badge.className='result-verdict verdict-check'; badge.textContent='Medium Risk';
+    fill.style.background='#F59E0B';
+    vtxt.textContent='Ada beberapa kata emosional yang bisa memancing respons negatif dari kubu lain.';
+    sugg.textContent='Coba kurangi kata yang terlalu emosional. Fokus pada fakta dan argumen konkret, bukan pada penyerangan identitas.';
+  } else {
+    badge.className='result-verdict verdict-danger'; badge.textContent='High Risk';
+    fill.style.background='#EF4444';
+    vtxt.textContent='Kalimat ini berisiko tinggi memperparah polarisasi dan menyerang kelompok tertentu.';
+    sugg.textContent='Ubah fokus: kritik kebijakan, bukan orangnya. Gunakan Reword It untuk bantuan mengubah kalimat ini menjadi lebih beradab.';
+  }
+}
+
+function setMeter(txt){ document.getElementById('meter-text').value=txt; document.getElementById('meter-result').style.display='none'; setTimeout(runMeter,100); }
+
+var rwMap=[['tidak punya akal','belum mempertimbangkan dampak sepenuhnya'],['nggak mikir','perlu lebih banyak pertimbangan'],['bodoh','kurang memahami konteks'],['goblok','belum melihat gambaran yang lebih luas'],['tidak becus','masih perlu banyak perbaikan'],['bikin malu','perlu dievaluasi lebih serius'],['maling','diduga terlibat praktik tidak transparan'],['pembohong','pernyataannya perlu diverifikasi'],['pasti','kemungkinan'],['semua','sebagian besar']];
+
+function doReword(){
+  var txt = document.getElementById('rw-in').value.trim();
+  if(!txt) return;
+  var out=txt;
+  rwMap.forEach(function(m){ out=out.replace(new RegExp(m[0],'gi'),m[1]); });
+  out=out.replace(/!$/,'.'); out=out.charAt(0).toUpperCase()+out.slice(1);
+  if(out===txt) out='Saya kurang setuju dengan hal tersebut karena ada beberapa aspek yang menurut saya perlu dipertimbangkan lebih lanjut.';
+  document.getElementById('rw-out').textContent=out;
+  document.getElementById('rw-result-box').style.display='block';
+}
+function setRW(t){ document.getElementById('rw-in').value=t; document.getElementById('rw-result-box').style.display='none'; }
+
+var qcQs=[
+  {q:'Apakah sumber informasi ini jelas dan bisa diverifikasi?',opts:['Ya, sumbernya jelas dan kredibel','Tidak yakin / tidak ada sumber yang dicantumkan','Tidak, sumbernya tidak jelas sama sekali']},
+  {q:'Apakah tanggal dan konteks konten ini masih relevan?',opts:['Ya, masih relevan dan up-to-date','Tidak yakin apakah masih relevan','Tidak, sudah lama atau konteksnya sudah berbeda']},
+  {q:'Apakah judul atau caption konten ini bersifat provokatif?',opts:['Tidak, judulnya netral dan informatif','Ada sedikit unsur emosional tapi masih wajar','Ya, sangat provokatif dan memancing emosi']},
+  {q:'Apakah ada data atau bukti yang mendukung klaim dalam konten ini?',opts:['Ya, ada data dan bukti yang jelas','Sebagian ada, sebagian tidak','Tidak ada sama sekali']},
+  {q:'Apakah konten ini menyerang atau merendahkan kelompok tertentu?',opts:['Tidak, konten ini netral terhadap semua pihak','Sedikit menyudutkan tapi tidak kasar','Ya, secara jelas menyerang kelompok tertentu']}
+];
+var qcStep=0, qcAns=new Array(5).fill(-1);
+
+function renderQC(){
+  var bar = document.getElementById('qc-bar');
+  if(qcStep>=5){ showQCResult(); return; }
+  bar.style.width=(qcStep/5*100)+'%';
+  var q=qcQs[qcStep];
+  document.getElementById('qc-body').innerHTML='<div class="qc-step-info">Pertanyaan '+(qcStep+1)+' dari 5</div><div class="qc-question">'+q.q+'</div><div class="qc-options">'+q.opts.map(function(o,i){ return '<button class="qc-opt'+(qcAns[qcStep]===i?' selected':'')+'" onclick="selQC('+i+')"><div class="qc-opt-dot"></div><span>'+o+'</span></button>'; }).join('')+'</div><button class="qc-next" id="qc-next-btn" onclick="nextQC()" '+(qcAns[qcStep]===-1?'disabled':'')+'>'+( qcStep===4?'Lihat Hasil':'Lanjut →')+'</button>';
+}
+function selQC(i){ qcAns[qcStep]=i; renderQC(); }
+function nextQC(){ if(qcAns[qcStep]===-1)return; qcStep++; renderQC(); }
+function showQCResult(){
+  document.getElementById('qc-bar').style.width='100%';
+  var score=qcAns.reduce(function(s,a){return s+(a===0?0:a===1?1:2);},0);
+  var type,label,msg;
+  if(score<=3){type='safe';label='Safe to Share';msg='Konten ini terlihat cukup aman. Sumber jelas, konteks relevan, dan tidak bersifat provokatif. Kamu bisa membagikannya.';}
+  else if(score<=6){type='check';label='Check Again';msg='Ada beberapa hal yang perlu dicek ulang sebelum membagikan konten ini. Pastikan sumbernya kredibel dan konteksnya benar.';}
+  else{type='danger';label="Don't Share Yet";msg='Konten ini berisiko tinggi mengandung hoaks, narasi provokatif, atau serangan terhadap kelompok tertentu. Lebih baik tidak disebarkan.';}
+  var colors={safe:'#22C55E',check:'#F59E0B',danger:'#EF4444'};
+  document.getElementById('qc-body').innerHTML='<div style="text-align:center;padding:20px 0;"><div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#6B21A8,#0891B2);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:28px;color:#fff;font-family:\'DM Serif Display\',serif;">'+(score<=3?'✓':score<=6?'~':'✗')+'</div><div class="result-verdict '+('verdict-'+type)+'" style="margin:0 auto 12px;">'+label+'</div><p style="font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qcStep=0;qcAns=new Array(5).fill(-1);renderQC();">Cek Konten Lain</button></div>';
+}
+
+var qzQs=[
+  {q:'Kamu melihat berita politik yang membuatmu emosi, tapi sumbernya tidak jelas. Apa yang kamu lakukan?',opts:['Langsung share karena setuju','Share ke grup keluarga','Cek sumber dan bandingkan dengan media lain dulu','Komentar marah-marah di kolom komentar'],correct:2,fb:'Benar! Verifikasi sumber adalah langkah pertama sebelum membagikan informasi apapun — terutama yang menyangkut isu politik.'},
+  {q:'Ada konten dengan judul sangat provokatif tapi belum membaca isinya. Kamu akan?',opts:['Share langsung karena judul sudah jelas','Simpan untuk dibagikan nanti','Baca dulu isinya sepenuhnya sebelum membagi','Minta teman memverifikasinya'],correct:2,fb:'Tepat! Judul provokatif sering digunakan untuk clickbait. Baca seluruh isinya sebelum membagi — ini bagian dari kebijaksanaan Sila IV.'},
+  {q:'Seseorang di grup mengirim konten yang mendukung pandangan politikmu. Bagaimana sikapmu?',opts:['Langsung forward ke grup lain','Like dan share tanpa berpikir panjang','Tetap cek faktanya meski setuju isinya','Balas dengan komentar panjang mendukungnya'],correct:2,fb:'Benar! Bias konfirmasi membuat kita mudah percaya info yang sesuai pandangan. Tetap kritis meski isinya mendukung pendapatmu.'},
+  {q:'Cara terbaik berkomentar tentang isu politik yang membuatmu kesal adalah?',opts:['Tulis langsung semua yang dirasakan','Gunakan kata-kata keras agar pesannya kuat','Fokus pada kebijakan, bukan menyerang orangnya','Tag sebanyak mungkin orang agar viral'],correct:2,fb:'Tepat! Kritik yang efektif fokus pada isu dan kebijakan — bukan menyerang personal. Ini lebih beradab sesuai Sila II Pancasila.'}
+];
+var qzStep=0, qzAns=new Array(4).fill(-1);
+
+function renderQuiz(){
+  var bar=document.getElementById('quiz-bar');
+  if(qzStep>=qzQs.length){showQuizScore();return;}
+  bar.style.width=(qzStep/qzQs.length*100)+'%';
+  var q=qzQs[qzStep];
+  document.getElementById('quiz-body').innerHTML='<div class="qc-step-info">Soal '+(qzStep+1)+' dari '+qzQs.length+'</div><div class="qc-question">'+q.q+'</div><div class="qc-options" id="qz-opts">'+q.opts.map(function(o,i){return '<button class="qc-opt" onclick="answerQuiz('+i+')" id="qzopt'+i+'"><div class="quiz-opt-letter">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>';}).join('')+'</div><div class="feedback-card" id="qz-fb">'+q.fb+'</div><button class="qc-next" id="qz-next" style="display:none" onclick="qzStep++;renderQuiz();">'+(qzStep===qzQs.length-1?'Lihat Hasil':'Pertanyaan Berikutnya')+'</button>';
+}
+function answerQuiz(i){
+  if(document.querySelector('.qc-opt.correct')||document.querySelector('.qc-opt.wrong'))return;
+  qzAns[qzStep]=i;
+  var q=qzQs[qzStep];
+  document.querySelectorAll('.qc-opt').forEach(function(el,idx){
+    el.onclick=null;
+    if(idx===q.correct)el.classList.add('correct');
+    else if(idx===i&&i!==q.correct)el.classList.add('wrong');
+  });
+  document.getElementById('qz-fb').className='feedback-card visible';
+  document.getElementById('qz-next').style.display='block';
+}
+function showQuizScore(){
+  document.getElementById('quiz-bar').style.width='100%';
+  var score=qzAns.filter(function(a,i){return a===qzQs[i].correct;}).length;
+  var pct=Math.round(score/qzQs.length*100);
+  var badge=pct>=75?'Digital Peace Maker':pct>=50?'On the Right Track':'Need More Pause';
+  var msg=pct>=75?'Kamu sudah cukup bijak dalam menyikapi konten politik. Terus praktikkan dan bagikan kebiasaan baik ini!':pct>=50?'Kamu di jalur yang tepat! Masih ada ruang untuk berkembang. Gunakan Quick Check setiap kali ingin berbagi.':'Perlu lebih sering berhenti sejenak sebelum share. Jadikan Before You Share sebagai panduan harianmu.';
+  document.getElementById('quiz-body').innerHTML='<div class="score-wrap"><div class="score-ring">'+score+'/'+qzQs.length+'</div><div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:8px;">Skor kamu: '+pct+'%</div><div class="score-badge">'+badge+'</div><p style="font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:20px;">'+msg+'</p><button class="qc-next" onclick="qzStep=0;qzAns=new Array(4).fill(-1);renderQuiz();">Ulangi Quiz</button></div>';
+}
+
+renderQC();
+renderQuiz();
+</script>
