@@ -439,6 +439,10 @@
     margin-bottom: 16px;
     display: none;
   }
+  .feedback-card.wrong {
+    background: #eeeeee;
+    color: #4b4b4b;
+  }
   .feedback-card.visible { display: block; }
 
   /* SCORE */
@@ -1053,7 +1057,7 @@ function renderQC(){
   if(qcStep>=5){ showQCResult(); return; }
   bar.style.width=(qcStep/5*100)+'%';
   var q=qcQs[qcStep];
-  document.getElementById('qc-body').innerHTML='<div class="qc-step-info">Question '+(qcStep+1)+' of 5</div><div class="qc-question">'+q.q+'</div><div class="qc-options">'+q.opts.map(function(o,i){ return '<button class="qc-opt'+(qcAns[qcStep]===i?' selected':'')+'" onclick="selQC('+i+')"><div class="qc-opt-dot"></div><span>'+o+'</span></button>'; }).join('')+'</div><button class="qc-next" id="qc-next-btn" onclick="nextQC()" '+(qcAns[qcStep]===-1?'disabled':'')+'>'+( qcStep===4?'View Results':'Next →')+'</button>';
+  document.getElementById('qc-body').innerHTML='<div class="qc-step-info">Question '+(qcStep+1)+' of 5</div><div class="qc-question">'+q.q+'</div><div class="qc-options">'+q.opts.map(function(o,i){ return '<button type="button" class="qc-opt'+(qcAns[qcStep]===i?' selected':'')+'" onclick="selQC('+i+')"><div class="qc-opt-dot"></div><span>'+o+'</span></button>'; }).join('')+'</div><button class="qc-next" id="qc-next-btn" onclick="nextQC()" '+(qcAns[qcStep]===-1?'disabled':'')+'>'+( qcStep===4?'View Results':'Next →')+'</button>';
 }
 function selQC(i){ qcAns[qcStep]=i; renderQC(); }
 function nextQC(){ if(qcAns[qcStep]===-1)return; qcStep++; renderQC(); }
@@ -1068,10 +1072,34 @@ function showQCResult(){
 }
 
 var qzQs=[
-  {q:'You see political news that makes you emotional, but the source is unclear. What do you do?',opts:['Share right away because I agree','Share to the family group','Check the source and compare with other outlets first','Leave an angry comment'],correct:2,fb:'Correct! Verifying the source is the first step before sharing any information, especially political issues.'},
-  {q:'A post has a very provocative headline but you have not read the content. You will?',opts:['Share immediately because the headline is clear','Save it to share later','Read the full content before sharing','Ask a friend to verify it'],correct:2,fb:'Right! Provocative headlines are often clickbait. Read the full content before sharing - part of Sila IV wisdom.'},
-  {q:'Someone in a group shares content that supports your political view. How do you respond?',opts:['Forward it to other groups','Like and share without thinking','Still check the facts even if I agree','Reply with a long supportive comment'],correct:2,fb:'Correct! Confirmation bias makes us trust information that matches our view. Stay critical even when it supports your opinion.'},
-  {q:'The best way to comment on a political issue that annoys you is?',opts:['Write everything I feel right away','Use harsh words to make it strong','Focus on policy, not attacking the person','Tag as many people as possible to go viral'],correct:2,fb:'Right! Effective criticism focuses on issues and policy, not personal attacks. This is more civil, in line with Sila II Pancasila.'}
+  {
+    q:'You see political news that makes you emotional, but the source is unclear. What do you do?',
+    opts:['Share right away because I agree','Share to the family group','Check the source and compare with other outlets first','Leave an angry comment'],
+    correct:2,
+    fbCorrect:'Correct! Verifying the source is the first step before sharing any information, especially political issues.',
+    fbWrong:'Not quite. The safest move is to verify the source and compare with other outlets before sharing.'
+  },
+  {
+    q:'A post has a very provocative headline but you have not read the content. You will?',
+    opts:['Share immediately because the headline is clear','Save it to share later','Read the full content before sharing','Ask a friend to verify it'],
+    correct:2,
+    fbCorrect:'Right! Provocative headlines are often clickbait. Read the full content before sharing - part of Sila IV wisdom.',
+    fbWrong:'Not quite. Provocative headlines can be misleading. Read the full content before sharing.'
+  },
+  {
+    q:'Someone in a group shares content that supports your political view. How do you respond?',
+    opts:['Forward it to other groups','Like and share without thinking','Still check the facts even if I agree','Reply with a long supportive comment'],
+    correct:2,
+    fbCorrect:'Correct! Confirmation bias makes us trust information that matches our view. Stay critical even when it supports your opinion.',
+    fbWrong:'Not quite. Confirmation bias can mislead us. Even when we agree, we should still check the facts.'
+  },
+  {
+    q:'The best way to comment on a political issue that annoys you is?',
+    opts:['Write everything I feel right away','Use harsh words to make it strong','Focus on policy, not attacking the person','Tag as many people as possible to go viral'],
+    correct:2,
+    fbCorrect:'Right! Effective criticism focuses on issues and policy, not personal attacks. This is more civil, in line with Sila II Pancasila.',
+    fbWrong:'Not quite. The best approach is to focus on policy and avoid personal attacks.'
+  }
 ];
 var qzStep=0, qzAns=new Array(4).fill(-1);
 
@@ -1080,19 +1108,25 @@ function renderQuiz(){
   if(qzStep>=qzQs.length){showQuizScore();return;}
   bar.style.width=(qzStep/qzQs.length*100)+'%';
   var q=qzQs[qzStep];
-  document.getElementById('quiz-body').innerHTML='<div class="qc-step-info">Question '+(qzStep+1)+' of '+qzQs.length+'</div><div class="qc-question">'+q.q+'</div><div class="qc-options" id="qz-opts">'+q.opts.map(function(o,i){return '<button class="qc-opt" onclick="answerQuiz('+i+')" id="qzopt'+i+'"><div class="quiz-opt-letter">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>';}).join('')+'</div><div class="feedback-card" id="qz-fb">'+q.fb+'</div><button class="qc-next" id="qz-next" style="display:none" onclick="qzStep++;renderQuiz();">'+(qzStep===qzQs.length-1?'View Results':'Next Question')+'</button>';
+  document.getElementById('quiz-body').innerHTML='<div class="qc-step-info">Question '+(qzStep+1)+' of '+qzQs.length+'</div><div class="qc-question">'+q.q+'</div><div class="qc-options" id="qz-opts">'+q.opts.map(function(o,i){return '<button type="button" class="qc-opt" onclick="answerQuiz('+i+')" id="qzopt'+i+'" aria-pressed="false"><div class="quiz-opt-letter">'+String.fromCharCode(65+i)+'</div><span>'+o+'</span></button>';}).join('')+'</div><div class="feedback-card" id="qz-fb"></div><button class="qc-next" id="qz-next" style="display:none" onclick="qzStep++;renderQuiz();">'+(qzStep===qzQs.length-1?'View Results':'Next Question')+'</button>';
 }
 function answerQuiz(i){
-  if(document.querySelector('.qc-opt.correct')||document.querySelector('.qc-opt.wrong'))return;
+  var quizBody = document.getElementById('quiz-body');
+  if(quizBody.querySelector('.qc-opt.correct')||quizBody.querySelector('.qc-opt.wrong'))return;
   qzAns[qzStep]=i;
   var q=qzQs[qzStep];
-  document.querySelectorAll('.qc-opt').forEach(function(el,idx){
+  quizBody.querySelectorAll('.qc-opt').forEach(function(el,idx){
     el.onclick=null;
+    el.setAttribute('aria-pressed', idx===i ? 'true' : 'false');
+    if(idx===i) el.classList.add('selected');
     if(idx===q.correct)el.classList.add('correct');
     else if(idx===i&&i!==q.correct)el.classList.add('wrong');
   });
-  document.getElementById('qz-fb').className='feedback-card visible';
-  document.getElementById('qz-next').style.display='block';
+  var fb=quizBody.querySelector('#qz-fb');
+  var isCorrect = i===q.correct;
+  fb.textContent = isCorrect ? q.fbCorrect : q.fbWrong;
+  fb.className = 'feedback-card visible' + (isCorrect ? '' : ' wrong');
+  quizBody.querySelector('#qz-next').style.display='block';
 }
 function showQuizScore(){
   document.getElementById('quiz-bar').style.width='100%';
